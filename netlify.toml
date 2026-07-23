@@ -1,0 +1,15 @@
+[build]
+  publish = "."
+
+# No build command needed — pure static HTML + zip files
+# Netlify just serves the directory as-is
+
+[[redirects]]
+  from = "/api/*"
+  to = "/.netlify/functions/:splat"
+  status = 200
+
+[[headers]]
+  for = "*.zip"
+  [headers.values]
+    Cache-Control = "public, max-age=604800"
