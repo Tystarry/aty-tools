@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BS诊断工具</title>
+<style>
+:root{--bg:#1a1d23;--card:#21252b;--border:#333842;--text:#c8ccd4;--dim:#7f848e;--accent:#61afef;--ok:#98c379;--warn:#e5c07b;--code-bg:#1a1d23;--inp:#282c34;--r:10px}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:"Segoe UI","Microsoft YaHei",sans-serif;background:var(--bg);color:var(--text);min-height:100vh;display:flex;justify-content:center;padding:20px}
+.container{max-width:1100px;width:100%}
+h1{font-size:22px;margin-bottom:4px}
+h1 span{font-size:13px;color:var(--dim);font-weight:400}
+.subtitle{color:var(--dim);font-size:13px;margin-bottom:20px}
+.columns{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+@media(max-width:768px){.columns{grid-template-columns:1fr}}
+.col{background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:20px}
+.col h2{font-size:15px;margin-bottom:4px;color:var(--accent)}
+.col .hint{font-size:11px;color:var(--dim);margin-bottom:12px}
+label{font-size:12px;display:block;margin:10px 0 4px;color:var(--dim)}
+input{width:100%;padding:8px 10px;background:var(--inp);border:1px solid var(--border);border-radius:6px;color:var(--text);font-size:14px;outline:none}
+input:focus{border-color:var(--accent)}
+button{padding:8px 16px;border:none;border-radius:6px;cursor:pointer;font-size:13px;font-weight:600;transition:all .15s}
+.btn-go{background:var(--accent);color:#1a1d23;margin-top:12px;width:100%}
+.btn-go:hover{opacity:.85}
+.btn-copy{background:var(--border);color:var(--text);margin-top:8px}
+.btn-copy:hover{background:var(--accent);color:#1a1d23}
+textarea{width:100%;height:280px;background:var(--code-bg);border:1px solid var(--border);border-radius:6px;color:var(--text);font-size:12px;font-family:monospace;padding:10px;resize:vertical;margin-top:8px}
+textarea:focus{border-color:var(--accent)}
+.btn-gen{background:var(--accent);color:#1a1d23;margin-top:8px;margin-right:8px}
+.btn-gen:hover{opacity:.85}
+.btn-clr{background:var(--border);color:var(--dim);margin-top:8px}
+.btn-clr:hover{color:var(--text)}
+.result{margin-top:12px}
+.summary{display:flex;gap:14px;flex-wrap:wrap;font-size:13px;margin:8px 0}
+table{width:100%;border-collapse:collapse;font-size:12px;margin-top:10px}
+th{background:var(--border);padding:6px 10px;text-align:left;font-weight:600}
+td{padding:5px 10px;border-bottom:1px solid var(--border)}
+.ok{color:var(--ok)}.bad{color:#e05555}.warn{color:var(--warn)}
+@media print{body{background:#fff;color:#000;padding:0}.col,#diag-json,.btn-go,.btn-copy,.btn-gen,.btn-clr{display:none}.result{display:block!important}.container{max-width:100%}}
+</style>
+</head>
+<body>
+<div class="container">
+<h1>🧩 BS诊断工具 <span>v2.0</span></h1>
+<div class="subtitle">ABC 流程 blendShape 诊断 — 输入组名 → 生成脚本 → Maya 运行 → 粘贴 JSON → 导出 PDF</div>
+
+<div class="columns">
+<div class="col">
+<h2>📋 第一步：生成 Maya 脚本</h2>
+<p class="hint">填写组名后点复制，粘贴到 Maya Script Editor (Python) 运行</p>
+
+<label>Mod 组名</label>
+<input id="bs-mod" placeholder="例如 Ahri_mod3">
+
+<label>ABC 组名</label>
+<input id="bs-abc" placeholder="例如 CHR_Ahri">
+
+<button class="btn-go" onclick="copyBSScript()">📋 复制脚本到剪贴板</button>
+
+<h2 style="margin-top:20px">📊 第二步：粘贴诊断结果</h2>
+<p class="hint">将 Maya 输出的 JSON 粘贴到下方</p>
+<textarea id="diag-json" placeholder='粘贴 JSON，例如：&#10;{"mod_group":"Ahri_mod3","abc_group":"CHR_Ahri","summary":{"ok":72,...},"pairs":[...]}'></textarea>
+<button class="btn-gen" onclick="genDiag()">📊 生成清单</button>
+<button class="btn-clr" onclick="clearDiag()">清空</button>
+<div class="result" id="diag-result"></div>
+</div>
+
+<div class="col">
+<h2>📖 使用说明</h2>
+<div class="hint">
+<p style="margin-bottom:8px">1. 填写 Mod 组名和 ABC 组名</p>
+<p style="margin-bottom:8px">2. 点「复制脚本」→ 粘贴到 Maya Script Editor (Python) → 运行</p>
+<p style="margin-bottom:8px">3. 复制 Maya 输出的 JSON（包含在 === COPY JSON BELOW === 之后）</p>
+<p style="margin-bottom:8px">4. 粘贴到左侧文本区 → 点「生成清单」</p>
+<p style="margin-bottom:8px">5. 点「导出 PDF」发给其他环节</p>
+
+<h3 style="margin-top:16px;font-size:13px;color:var(--accent)">诊断项目</h3>
+<p style="margin:4px 0">✅ 顶点数是否一致</p>
+<p style="margin:4px 0">🧊 Transform 是否冻结（位移/旋转/缩放是否归零）</p>
+<p style="margin:4px 0">🏗 层级结构是否一致（mod 和 ABC 的相对路径）</p>
+<p style="margin:4px 0">⚠ mod 独有 / ABC 独有的 mesh</p>
+
+<h3 style="margin-top:16px;font-size:13px;color:var(--accent)">注意</h3>
+<p style="margin:4px 0">Mod 和 ABC 组必须同时存在于场景中</p>
+<p style="margin:4px 0">脚本扫描组下所有子 mesh，自动匹配同名比对</p>
+<p style="margin:4px 0">不含任何第三方依赖，纯 Maya Python</p>
+</div>
+</div>
+</div>
+
+<script>
+var BS='import maya.cmds as cmds,json,math\n'+
+'mod="__MOD__";abc="__ABC__"\n'+
+'def gms(g,d=None):\n'+
+' if d is None:d={}\n'+
+' s=cmds.listRelatives(g,shapes=True,type="mesh")or[]\n'+
+' if s:d[g.split("|")[-1].split(":")[-1]]={"vtx":cmds.polyEvaluate(g,v=True),"path":g}\n'+
+' for c in cmds.listRelatives(g,children=True,type="transform",fullPath=True)or[]:gms(c,d)\n'+
+' return d\n'+
+'def get_groups(root):\n'+
+' grps=[];rn=root.split("|")[-1].split(":")[-1]\n'+
+' for c in cmds.listRelatives(root,allDescendents=True,type="transform",fullPath=True)or[]:\n'+
+'  sh=cmds.listRelatives(c,shapes=True,type="mesh")or[]\n'+
+'  if sh:continue\n'+
+'  parts=c.split("|");ri=0\n'+
+'  for i,pt in enumerate(parts):\n'+
+'   if pt.split(":")[-1]==rn:ri=i;break\n'+
+'  grps.append("|".join(parts[ri+1:]))\n'+
+' return sorted(set(grps))\n'+
+'def get_xf(n):t=cmds.getAttr(n+".t")[0];r=cmds.getAttr(n+".r")[0];s=cmds.getAttr(n+".s")[0];return{"t":[round(v,4)for v in t],"r":[round(v,4)for v in r],"s":[round(v,4)for v in s],"frozen":all(abs(v)<1e-6 for v in t)and all(abs(v)<1e-6 for v in r)and all(abs(v-1)<1e-6 for v in s)}\n'+
+'def rel_path(p,root):parts=p.split("|");rn=root.split("|")[-1].split(":")[-1];ri=0\n'+
+' for i,pt in enumerate(parts):\n'+
+'  if pt.split(":")[-1]==rn:ri=i;break\n'+
+' return "|".join(parts[ri+1:])\n'+
+'print("[ABC BS Diagnostic]")\n'+
+'mr=gms("__MOD__");ar=gms("__ABC__")\n'+
+'mod_root=cmds.ls("__MOD__",long=True)[0];abc_root=cmds.ls("__ABC__",long=True)[0]\n'+
+'mod_grps=get_groups(mod_root);abc_grps=get_groups(abc_root)\n'+
+'grp_only_mod=[g for g in mod_grps if g not in abc_grps]\n'+
+'grp_only_abc=[g for g in abc_grps if g not in mod_grps]\n'+
+'print(f"mod下{len(mod_grps)}个子组, ABC下{len(abc_grps)}个子组")\n'+
+'if grp_only_mod:print("mod独有子组: "+", ".join(grp_only_mod))\n'+
+'if grp_only_abc:print("ABC独有子组: "+", ".join(grp_only_abc))\n'+
+'ans=set(mr.keys())|set(ar.keys());ps=[];mo=[];ao=[];ok=0;mm=0;nf=0;nh=0\n'+
+'for n in sorted(ans):\n'+
+' if n in mr and n in ar:\n'+
+'  s="ok"if mr[n]["vtx"]==ar[n]["vtx"]else"mismatch"\n'+
+'  if s=="ok":ok+=1\n'+
+'  else:mm+=1\n'+
+'  xf=get_xf(mr[n]["path"])\n'+
+'  if not xf["frozen"]:nf+=1\n'+
+'  mp=rel_path(mr[n]["path"],mod_root);ap=rel_path(ar[n]["path"],abc_root)\n'+
+'  hm=mp==ap\n'+
+'  if not hm:nh+=1\n'+
+'  ps.append({"name":n,"mod_vtx":mr[n]["vtx"],"abc_vtx":ar[n]["vtx"],"status":s,"mod_transform":xf,"hierarchy_match":hm,"mod_hierarchy":mp,"abc_hierarchy":ap})\n'+
+' elif n in mr:mo.append(n)\n'+
+' else:ao.append(n)\n'+
+'import datetime as dt\n'+
+'r={"mod_group":mod,"abc_group":abc,"time":dt.datetime.now().strftime("%Y-%m-%d %H:%M:%S"),"summary":{"total_pairs":len(ps),"ok":ok,"mismatch":mm,"mod_only":len(mo),"abc_only":len(ao),"not_frozen":nf,"hierarchy_mismatch":nh},"pairs":ps,"mod_only":mo,"abc_only":ao,"mod_groups":mod_grps,"abc_groups":abc_grps,"group_mod_only":grp_only_mod,"group_abc_only":grp_only_abc}\n'+
+'print("\\n=== COPY JSON BELOW ===\\n"+json.dumps(r,ensure_ascii=False,indent=2))';
+
+function copyBSScript(){
+    var mod=document.getElementById('bs-mod').value.trim();
+    var abc=document.getElementById('bs-abc').value.trim();
+    if(!mod||!abc){alert('请先填写 Mod 组名和 ABC 组名');return;}
+    var txt=BS.replace(/__MOD__/g,mod).replace(/__ABC__/g,abc);
+    navigator.clipboard.writeText(txt).then(function(){
+        var btn=document.querySelector('.btn-go');btn.textContent='已复制!';setTimeout(function(){btn.textContent='📋 复制脚本到剪贴板';},1500);
+    });
+}
+
+function he(s){var d=document.createElement('div');d.textContent=s||'';return d.innerHTML;}
+
+function genDiag(){
+    var resultDiv=document.getElementById('diag-result');
+    try{
+        var data=JSON.parse(document.getElementById('diag-json').value.trim());
+        var s=data.summary;
+        var h='<div style="margin-top:4px;font-size:11px;color:var(--dim)"><b>mod:</b> '+he(data.mod_group||'?')+'  |  <b>ABC:</b> '+he(data.abc_group||'?')+'  |  '+he(data.time||'')+'</div>';
+        h+='<div class="summary"><span>✅ <b>'+s.ok+'</b> 可连</span><span style="color:#e05555">❌ <b>'+s.mismatch+'</b> 顶点不符</span><span style="color:#e05555">🧊 <b>'+(s.not_frozen||0)+'</b> 未冻结</span><span style="color:#e05555">🏗 <b>'+(s.hierarchy_mismatch||0)+'</b> 层级不符</span><span style="color:var(--warn)">⚠ <b>'+s.mod_only+'</b> mod独有</span><span style="color:var(--warn)">⚠ <b>'+s.abc_only+'</b> ABC独有</span></div>';
+        if(data.pairs&&data.pairs.length){
+            h+='<table><thead><tr style="background:var(--border)"><th>Mesh</th><th style="text-align:right">mod顶点</th><th style="text-align:right">ABC顶点</th><th>状态</th><th style="text-align:right">差</th><th>冻结</th><th>层级</th></tr></thead><tbody>';
+            data.pairs.forEach(function(p){
+                var diff=Math.abs(p.mod_vtx-p.abc_vtx);
+                var rowStyle=p.status==='mismatch'?'background:#e0555518':'';
+                var st=p.status==='ok'?'✅ 可连':(p.status==='mismatch'?'❌ 顶点不符':'⚠');
+                var stColor=p.status==='mismatch'?'color:#e05555':'';
+                var xf=p.mod_transform,frozen=xf&&xf.frozen;
+                var frozenTxt=frozen?'✅':'❌ 未冻结';
+                if(!frozen&&xf){
+                    var parts=[];
+                    if(xf.t&&(xf.t[0]||xf.t[1]||xf.t[2]))parts.push('T('+xf.t.join(',')+')');
+                    if(xf.r&&(xf.r[0]||xf.r[1]||xf.r[2]))parts.push('R('+xf.r.join(',')+')');
+                    if(xf.s&&(xf.s[0]!==1||xf.s[1]!==1||xf.s[2]!==1))parts.push('S('+xf.s.join(',')+')');
+                    frozenTxt='❌ '+parts.join(' ');
+                }
+                var hm=p.hierarchy_match!==false;
+                var hierTxt=hm?'✅':'❌ mod:'+he(p.mod_hierarchy||'')+' / abc:'+he(p.abc_hierarchy||'');
+                h+='<tr style="'+rowStyle+'"><td>'+he(p.name)+'</td><td style="text-align:right">'+p.mod_vtx+'</td><td style="text-align:right">'+p.abc_vtx+'</td><td style="'+stColor+'">'+st+'</td><td style="text-align:right;'+(diff>0?'color:#e05555;font-weight:600':'')+'">'+(diff>0?diff:'-')+'</td><td style="'+(frozen?'':'color:#e05555;font-weight:600')+'">'+frozenTxt+'</td><td style="'+(hm?'':'color:#e05555;font-weight:600')+';font-size:11px">'+hierTxt+'</td></tr>';
+            });
+            h+='</tbody></table>';
+        }
+        if(data.group_mod_only&&data.group_mod_only.length)h+='<p style="margin-top:8px;color:#e05555;font-size:12px">🏗 <b>mod独有子组</b>: '+he(data.group_mod_only.join(', '))+'</p>';
+        if(data.group_abc_only&&data.group_abc_only.length)h+='<p style="margin-top:4px;color:#e05555;font-size:12px">🏗 <b>ABC独有子组</b>: '+he(data.group_abc_only.join(', '))+'</p>';
+        if(data.mod_only&&data.mod_only.length)h+='<p style="margin-top:8px;color:var(--warn);font-size:12px">⚠ <b>mod独有mesh</b>: '+he(data.mod_only.join(', '))+'</p>';
+        if(data.abc_only&&data.abc_only.length)h+='<p style="margin-top:4px;color:var(--warn);font-size:12px">⚠ <b>ABC独有mesh</b>: '+he(data.abc_only.join(', '))+'</p>';
+        h+='<button style="margin-top:10px;padding:6px 14px;background:var(--accent);color:#1a1d23;border:none;border-radius:6px;cursor:pointer;font-size:12px" onclick="exportPDF()">📄 导出 PDF</button>';
+        resultDiv.innerHTML=h;
+    }catch(e){resultDiv.innerHTML='<p style="color:#e05555;font-size:12px">❌ JSON 解析失败: '+he(e.message)+'</p>';}
+}
+function clearDiag(){document.getElementById('diag-json').value='';document.getElementById('diag-result').innerHTML='';}
+function exportPDF(){
+    var html='<!DOCTYPE html><html><head><meta charset="UTF-8"><title>BS诊断清单</title><style>body{font-family:"Microsoft YaHei",sans-serif;padding:30px;color:#1a1a1a;max-width:1100px;margin:0 auto}h2{font-size:18px}table{width:100%;border-collapse:collapse;font-size:12px;margin-top:8px}th{background:#f0f0f0;padding:6px 10px;text-align:left;border-bottom:2px solid #ccc}td{padding:5px 10px;border-bottom:1px solid #eee}.ok{color:#2a8a2a}.bad{color:#c00}.warn{color:#c80}.dl-btn{display:inline-block;padding:10px 20px;background:#2563eb;color:#fff;border:none;border-radius:6px;font-size:14px;cursor:pointer;margin-bottom:16px}@media print{.dl-btn{display:none}body{padding:0}@page{size:A4 landscape;margin:10mm}}</style></head><body><button class="dl-btn" onclick="window.print()">📥 保存为 PDF</button><p style="color:#888;font-size:11px;margin-bottom:16px">点击上方按钮 → 打印对话框 → 目标选「另存为 PDF」→ 保存</p>';
+    html+=document.getElementById('diag-result').innerHTML;
+    html+='</body></html>';
+    var blob=new Blob([html],{type:'text/html;charset=UTF-8'});
+    window.open(URL.createObjectURL(blob),'_blank');
+}
+</script>
+</body>
+</html>
