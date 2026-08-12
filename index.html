@@ -290,7 +290,7 @@ function card(d){
 
         var body=d.body||'';
         var bh='';
-        if(body)bh='<div class="card-body" style="font-size:12px;color:var(--dim);line-height:1.6;margin-bottom:10px">'+he(body).replace(/\\n/g,'<br>')+'</div>';
+        if(body)bh='<div class="card-body" style="font-size:12px;color:var(--dim);line-height:1.6;margin-bottom:10px">'+body.split(/\\n+/).filter(Boolean).map(function(l){return'<p style=margin:3px0>'+he(l)+'</p>'}).join('')+'</div>';
     return'<div class="card" onclick="this.classList.toggle(\'open\')">'+
         '<span class="tag '+cl+'">'+tx+'</span>'+
         '<span class="sw">'+he(d.software.toUpperCase())+'</span> '+
