@@ -291,8 +291,14 @@ function card(d){
         var body=d.body||'';
         var bh='';
         if(body)bh='<div class="card-body" style="font-size:12px;color:var(--dim);line-height:1.6;margin-bottom:10px">'+he(body).replace(/\\n/g,'<br>')+'</div>';
-            '<div class="detail">'+bh+mh+th+actions+'</div>'+
-        '</div>';
+    return'<div class="card" onclick="this.classList.toggle(\'open\')">'+
+        '<span class="tag '+cl+'">'+tx+'</span>'+
+        '<span class="sw">'+he(d.software.toUpperCase())+'</span> '+
+        '<span style="color:var(--dim);font-size:11px">'+he(d.subtag)+'</span>'+
+        '<h3>'+he(d.name)+'</h3>'+
+        '<div class="desc">'+he(desc)+'</div>'+
+        '<div class="foot"><span>📄 '+fl.length+' 文件</span>'+(d.package?'<span>📦 已打包</span>':'')+ph+'</div>'+
+        '<div class="detail">'+bh+mh+th+actions+'</div>'+
         '</div>';
 }
 
