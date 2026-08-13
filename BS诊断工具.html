@@ -157,7 +157,10 @@ var BS='import maya.cmds as cmds,json,math\n'+
 '  # 检查组名链是否一致\n'+
 '  mod_chain=mr[n]["path"];abc_chain=ar[n]["path"]\n'+
 '  hm=True\n'+
-'  mod_parts=[sn(p)for p in mod_chain.split("|")];abc_parts=[sn(p)for p in abc_chain.split("|")]\n'+
+'  mfull=[sn(p)for p in mod_chain.split("|")];afull=[sn(p)for p in abc_chain.split("|")]\n'+
+'  mrname=sn(mod_root);arname=sn(abc_root)\n'+
+'  mod_parts=mfull[mfull.index(mrname):] if mrname in mfull else mfull\n'+
+'  abc_parts=afull[afull.index(arname):] if arname in afull else afull\n'+
 '  if mod_parts!=abc_parts:hm=False;nh+=1\n'+
 '  # 检查兄弟顺序\n'+
 '  om=True\n'+
