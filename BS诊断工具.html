@@ -173,6 +173,10 @@ var BS='import maya.cmds as cmds,json,math\n'+
 ' if i<len(mnames) and j<len(anames) and mnames[i]==anames[j]:\n'+
 '  ordered_pairs.append({"mod":mnames[i],"abc":anames[j],"same":True})\n'+
 '  i+=1;j+=1\n'+
+' elif i<len(mnames) and j<len(anames) and mnames[i] not in anames and anames[j] not in mnames:\n'+
+'  # 双方同名位置但命名不同（如 jianjia_geo vs jianjia_geo2）→ 同行标红\n'+
+'  ordered_pairs.append({"mod":mnames[i],"abc":anames[j],"same":False,"name_mismatch":True})\n'+
+'  i+=1;j+=1;no+=1\n'+
 ' elif i<len(mnames) and mnames[i] not in anames:\n'+
 '  # mod 独有\n'+
 '  ordered_pairs.append({"mod":mnames[i],"abc":"","same":False,"mod_only_row":True})\n'+
@@ -223,7 +227,7 @@ function genDiag(){
                 var ft=frozen?'✅':'❌';
                 var modCell=op.mod?he(op.mod):(op.abc_only_row?'<span style="color:var(--dim)">—</span>':'');
                 var abcCell=op.abc?he(op.abc):(op.mod_only_row?'<span style="color:var(--dim)">—</span>':'');
-                var tag=op.mod_only_row?'<span style="color:#e05555;font-size:10px">(mod独有)</span>':(op.abc_only_row?'<span style="color:#e05555;font-size:10px">(abc独有)</span>':'');
+                var tag=op.mod_only_row?'<span style="color:#e05555;font-size:10px">(mod独有)</span>':(op.abc_only_row?'<span style="color:#e05555;font-size:10px">(abc独有)</span>':(op.name_mismatch?'<span style="color:#e05555;font-size:10px">(命名不同)</span>':''));
                 h+='<tr style="'+rowStyle+'"><td style="padding:5px 10px">'+modCell+'</td><td style="padding:5px 10px">'+abcCell+'</td><td style="padding:5px 10px;text-align:right">'+mv+'</td><td style="padding:5px 10px;text-align:right">'+av+'</td><td style="padding:5px 10px">'+st+' '+tag+'</td><td style="padding:5px 10px;'+(frozen?'':'color:#e05555;font-weight:600')+'">'+ft+'</td></tr>';
             });
             h+='</tbody></table>';
