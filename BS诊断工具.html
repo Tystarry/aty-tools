@@ -41,7 +41,7 @@ td{padding:5px 10px;border-bottom:1px solid var(--border)}
 </head>
 <body>
 <div class="container">
-<h1>🧩 BS诊断工具 <span>v2.0</span></h1>
+<h1>🧩 BS诊断工具 <span>v3.0</span></h1>
 <div class="subtitle">ABC 流程 blendShape 诊断 — 输入组名 → 生成脚本 → Maya 运行 → 粘贴 JSON → 导出 PDF</div>
 
 <div class="columns">
@@ -91,53 +91,86 @@ td{padding:5px 10px;border-bottom:1px solid var(--border)}
 <script>
 var BS='import maya.cmds as cmds,json,math\n'+
 'mod="__MOD__";abc="__ABC__"\n'+
-'def gms(g,d=None):\n'+
-' if d is None:d={}\n'+
-' s=cmds.listRelatives(g,shapes=True,type="mesh")or[]\n'+
-' if s:d[g.split("|")[-1].split(":")[-1]]={"vtx":cmds.polyEvaluate(g,v=True),"path":g}\n'+
-' for c in cmds.listRelatives(g,children=True,type="transform",fullPath=True)or[]:gms(c,d)\n'+
-' return d\n'+
-'def get_groups(root):\n'+
-' grps=[];rn=root.split("|")[-1].split(":")[-1]\n'+
-' for c in cmds.listRelatives(root,allDescendents=True,type="transform",fullPath=True)or[]:\n'+
-'  sh=cmds.listRelatives(c,shapes=True,type="mesh")or[]\n'+
-'  if sh:continue\n'+
-'  parts=c.split("|");ri=0\n'+
-'  for i,pt in enumerate(parts):\n'+
-'   if pt.split(":")[-1]==rn:ri=i;break\n'+
-'  grps.append("|".join(parts[ri+1:]))\n'+
-' return sorted(set(grps))\n'+
-'def get_xf(n):t=cmds.getAttr(n+".t")[0];r=cmds.getAttr(n+".r")[0];s=cmds.getAttr(n+".s")[0];return{"t":[round(v,4)for v in t],"r":[round(v,4)for v in r],"s":[round(v,4)for v in s],"frozen":all(abs(v)<1e-6 for v in t)and all(abs(v)<1e-6 for v in r)and all(abs(v-1)<1e-6 for v in s)}\n'+
-'def rel_path(p,root):parts=p.split("|");rn=root.split("|")[-1].split(":")[-1];ri=0\n'+
-' for i,pt in enumerate(parts):\n'+
-'  if pt.split(":")[-1]==rn:ri=i;break\n'+
-' return "|".join(parts[ri+1:])\n'+
-'print("[ABC BS Diagnostic]")\n'+
-'mr=gms("__MOD__");ar=gms("__ABC__")\n'+
+'def sn(n):return n.split("|")[-1].split(":")[-1]\n'+
+'def get_xf(n):\n'+
+' t=cmds.getAttr(n+".t")[0];r=cmds.getAttr(n+".r")[0];s=cmds.getAttr(n+".s")[0]\n'+
+' return{"t":[round(v,4)for v in t],"r":[round(v,4)for v in r],"s":[round(v,4)for v in s],"frozen":all(abs(v)<1e-6 for v in t)and all(abs(v)<1e-6 for v in r)and all(abs(v-1)<1e-6 for v in s)}\n'+
+'def build_tree(root):\n'+
+' # 递归构建层级树, 返回{name,path,is_mesh,is_group,vtx,xf,children:[],children_order:[names]}\n'+
+' node={"name":sn(root),"path":root,"is_mesh":False,"is_group":True,"vtx":0,"xf":get_xf(root),"children":[],"child_order":[]}\n'+
+' ch=cmds.listRelatives(root,children=True,type="transform",fullPath=True)or[]\n'+
+' for c in ch:\n'+
+'  sh=cmds.listRelatives(c,shapes=True,type="mesh",fullPath=True)or[]\n'+
+'  if sh:\n'+
+'   v=cmds.polyEvaluate(c,v=True)\n'+
+'   mnode={"name":sn(c),"path":c,"is_mesh":True,"is_group":False,"vtx":v,"xf":get_xf(c),"children":[],"child_order":[]}\n'+
+'   # 检查中间组节点 transform\n'+
+'   node["children"].append(mnode)\n'+
+'   node["child_order"].append(sn(c))\n'+
+'  else:\n'+
+'   sub=build_tree(c)\n'+
+'   node["children"].append(sub)\n'+
+'   node["child_order"].append(sn(c))\n'+
+' return node\n'+
+'def walk_tree(node,parent_name,depth,branch_id,result):\n'+
+' # 深度优先遍历, 按大纲顺序输出扁平列表\n'+
+' if node["is_mesh"]:\n'+
+'  result.append({"name":node["name"],"parent":parent_name,"depth":depth,"branch":branch_id,"path":node["path"],"vtx":node["vtx"],"xf":node["xf"],"is_mesh":True})\n'+
+' else:\n'+
+'  for i,ch in enumerate(node["children"]):\n'+
+'   walk_tree(ch,node["name"],depth+1,branch_id+"_"+str(i),result)\n'+
+'def match_trees(mod_tree,abc_tree,issues):\n'+
+' # 对比两棵树:组名+顺序+层级\n'+
+' if mod_tree["name"]!=abc_tree["name"]:issues.append("组名不一致: mod."+mod_tree["name"]+" vs abc."+abc_tree["name"])\n'+
+' if mod_tree["child_order"]!=abc_tree["child_order"]:issues.append("子级顺序不一致 @"+mod_tree["name"]+": mod"+str(mod_tree["child_order"])+" vs abc"+str(abc_tree["child_order"]))\n'+
+' for i in range(min(len(mod_tree["children"]),len(abc_tree["children"]))):\n'+
+'  mc=mod_tree["children"][i];ac=abc_tree["children"][i]\n'+
+'  if mc["is_mesh"] and ac["is_mesh"]:continue  # mesh check later\n'+
+'  if mc["is_mesh"]!=ac["is_mesh"]:\n'+
+'   issues.append("类型不一致 @"+mc["name"]+": mod."+("mesh"if mc["is_mesh"]else"group")+" vs abc."+("mesh"if ac["is_mesh"]else"group"))\n'+
+'   continue\n'+
+'  if not mc["is_mesh"]:match_trees(mc,ac,issues)\n'+
+'print("[ABC BS Diagnostic v3]")\n'+
 'mod_root=cmds.ls("__MOD__",long=True)[0];abc_root=cmds.ls("__ABC__",long=True)[0]\n'+
-'mod_grps=get_groups(mod_root);abc_grps=get_groups(abc_root)\n'+
-'grp_only_mod=[g for g in mod_grps if g not in abc_grps]\n'+
-'grp_only_abc=[g for g in abc_grps if g not in mod_grps]\n'+
-'print(f"mod下{len(mod_grps)}个子组, ABC下{len(abc_grps)}个子组")\n'+
-'if grp_only_mod:print("mod独有子组: "+", ".join(grp_only_mod))\n'+
-'if grp_only_abc:print("ABC独有子组: "+", ".join(grp_only_abc))\n'+
-'ans=set(mr.keys())|set(ar.keys());ps=[];mo=[];ao=[];ok=0;mm=0;nf=0;nh=0\n'+
-'for n in sorted(ans):\n'+
+'mod_tree=build_tree(mod_root);abc_tree=build_tree(abc_root)\n'+
+'issues=[];match_trees(mod_tree,abc_tree,issues)\n'+
+'if issues:\n'+
+' for iss in issues:print("🏗 "+iss)\n'+
+'else:print("🏗 层级结构一致")\n'+
+'# 收集所有mesh\n'+
+'mr={};mod_list=[];walk_tree(mod_tree,"",0,"M",mod_list)\n'+
+'ar={};abc_list=[];walk_tree(abc_tree,"",0,"A",abc_list)\n'+
+'for m in mod_list:mr[m["name"]]=m\n'+
+'for m in abc_list:ar[m["name"]]=m\n'+
+'# 按大纲顺序生成配对列表\n'+
+'ans=set(mr.keys())|set(ar.keys());pairs=[];mo=[];ao=[];ok=0;mm=0;nf=0;nh=0;no=0\n'+
+'seen=set()\n'+
+'for m in mod_list+abc_list:\n'+
+' n=m["name"]\n'+
+' if n in seen:continue\n'+
+' seen.add(n)\n'+
 ' if n in mr and n in ar:\n'+
 '  s="ok"if mr[n]["vtx"]==ar[n]["vtx"]else"mismatch"\n'+
 '  if s=="ok":ok+=1\n'+
 '  else:mm+=1\n'+
-'  xf=get_xf(mr[n]["path"])\n'+
-'  if not xf["frozen"]:nf+=1\n'+
-'  mp=rel_path(mr[n]["path"],mod_root);ap=rel_path(ar[n]["path"],abc_root)\n'+
-'  hm=mp==ap\n'+
-'  if not hm:nh+=1\n'+
-'  ps.append({"name":n,"mod_vtx":mr[n]["vtx"],"abc_vtx":ar[n]["vtx"],"status":s,"mod_transform":xf,"hierarchy_match":hm,"mod_hierarchy":mp,"abc_hierarchy":ap})\n'+
+'  if not mr[n]["xf"]["frozen"]:nf+=1\n'+
+'  # 检查组名链是否一致\n'+
+'  mod_chain=mr[n]["path"];abc_chain=ar[n]["path"]\n'+
+'  hm=True\n'+
+'  mod_parts=[sn(p)for p in mod_chain.split("|")];abc_parts=[sn(p)for p in abc_chain.split("|")]\n'+
+'  if mod_parts!=abc_parts:hm=False;nh+=1\n'+
+'  # 检查兄弟顺序\n'+
+'  om=True\n'+
+'  if mr[n]["parent"]==ar[n]["parent"]:\n'+
+'   # same parent name - order preserved by walk_tree\n'+
+'   pass\n'+
+'  else:om=False;no+=1\n'+
+'  pairs.append({"name":n,"mod_vtx":mr[n]["vtx"],"abc_vtx":ar[n]["vtx"],"status":s,"mod_transform":mr[n]["xf"],"hierarchy_match":hm,"order_match":om,"mod_parent":mr[n]["parent"],"abc_parent":ar[n]["parent"],"depth":mr[n]["depth"],"branch":mr[n]["branch"],"mod_chain":"|".join(mod_parts),"abc_chain":"|".join(abc_parts)})\n'+
 ' elif n in mr:mo.append(n)\n'+
 ' else:ao.append(n)\n'+
 'import datetime as dt\n'+
-'r={"mod_group":mod,"abc_group":abc,"time":dt.datetime.now().strftime("%Y-%m-%d %H:%M:%S"),"summary":{"total_pairs":len(ps),"ok":ok,"mismatch":mm,"mod_only":len(mo),"abc_only":len(ao),"not_frozen":nf,"hierarchy_mismatch":nh},"pairs":ps,"mod_only":mo,"abc_only":ao,"mod_groups":mod_grps,"abc_groups":abc_grps,"group_mod_only":grp_only_mod,"group_abc_only":grp_only_abc}\n'+
-'print("\\n=== COPY JSON BELOW ===\\n"+json.dumps(r,ensure_ascii=False,indent=2))';
+'r={"mod_group":mod,"abc_group":abc,"time":dt.datetime.now().strftime("%Y-%m-%d %H:%M:%S"),"summary":{"total_pairs":len(pairs),"ok":ok,"mismatch":mm,"mod_only":len(mo),"abc_only":len(ao),"not_frozen":nf,"hierarchy_mismatch":nh,"order_mismatch":no},"pairs":pairs,"mod_only":mo,"abc_only":ao,"structure_issues":issues}\n'+
+'\n';
 
 function copyBSScript(){
     var mod=document.getElementById('bs-mod').value.trim();
@@ -157,9 +190,13 @@ function genDiag(){
         var data=JSON.parse(document.getElementById('diag-json').value.trim());
         var s=data.summary;
         var h='<div style="margin-top:4px;font-size:11px;color:var(--dim)"><b>mod:</b> '+he(data.mod_group||'?')+'  |  <b>ABC:</b> '+he(data.abc_group||'?')+'  |  '+he(data.time||'')+'</div>';
-        h+='<div class="summary"><span>✅ <b>'+s.ok+'</b> 可连</span><span style="color:#e05555">❌ <b>'+s.mismatch+'</b> 顶点不符</span><span style="color:#e05555">🧊 <b>'+(s.not_frozen||0)+'</b> 未冻结</span><span style="color:#e05555">🏗 <b>'+(s.hierarchy_mismatch||0)+'</b> 层级不符</span><span style="color:var(--warn)">⚠ <b>'+s.mod_only+'</b> mod独有</span><span style="color:var(--warn)">⚠ <b>'+s.abc_only+'</b> ABC独有</span></div>';
+        h+='<div class="summary"><span>✅ <b>'+s.ok+'</b> 可连</span><span style="color:#e05555">❌ <b>'+s.mismatch+'</b> 顶点不符</span><span style="color:#e05555">🧊 <b>'+(s.not_frozen||0)+'</b> 未冻结</span><span style="color:#e05555">🏗 <b>'+(s.hierarchy_mismatch||0)+'</b> 层级</span><span style="color:#e05555">🔀 <b>'+(s.order_mismatch||0)+'</b> 顺序</span><span style="color:var(--warn)">⚠ <b>'+s.mod_only+'</b> mod独有</span><span style="color:var(--warn)">⚠ <b>'+s.abc_only+'</b> ABC独有</span></div>';
+        if(data.structure_issues&&data.structure_issues.length)h+='<p style="margin-top:6px;color:#e05555;font-size:12px">🏗 结构问题: '+he(data.structure_issues.join('; '))+'</p>';
         if(data.pairs&&data.pairs.length){
-            h+='<table><thead><tr style="background:var(--border)"><th>Mesh</th><th style="text-align:right">mod顶点</th><th style="text-align:right">ABC顶点</th><th>状态</th><th style="text-align:right">差</th><th>冻结</th><th>层级</th></tr></thead><tbody>';
+            var branches={},bci=0;
+            data.pairs.forEach(function(p){var b=p.branch.split('_')[0]||'0';if(!branches[b])branches[b]=bci++;});
+            var MC=['#b8a99a','#9cadb0','#c0a8b0','#a0b0a0','#c0a098','#8ab0a8','#b0a0c0','#b0b098'];
+            h+='<table><thead><tr style="background:var(--border)"><th>Mesh</th><th style="text-align:right">mod顶点</th><th style="text-align:right">ABC顶点</th><th>状态</th><th style="text-align:right">差</th><th>冻结</th><th>层级</th><th>顺序</th></tr></thead><tbody>';
             data.pairs.forEach(function(p){
                 var diff=Math.abs(p.mod_vtx-p.abc_vtx);
                 var rowStyle=p.status==='mismatch'?'background:#e0555518':'';
@@ -175,8 +212,12 @@ function genDiag(){
                     frozenTxt='❌ '+parts.join(' ');
                 }
                 var hm=p.hierarchy_match!==false;
-                var hierTxt=hm?'✅':'❌ mod:'+he(p.mod_hierarchy||'')+' / abc:'+he(p.abc_hierarchy||'');
-                h+='<tr style="'+rowStyle+'"><td>'+he(p.name)+'</td><td style="text-align:right">'+p.mod_vtx+'</td><td style="text-align:right">'+p.abc_vtx+'</td><td style="'+stColor+'">'+st+'</td><td style="text-align:right;'+(diff>0?'color:#e05555;font-weight:600':'')+'">'+(diff>0?diff:'-')+'</td><td style="'+(frozen?'':'color:#e05555;font-weight:600')+'">'+frozenTxt+'</td><td style="'+(hm?'':'color:#e05555;font-weight:600')+';font-size:11px">'+hierTxt+'</td></tr>';
+                var hierTxt=hm?'✅':'❌ mod:'+he(p.mod_chain||'')+' / abc:'+he(p.abc_chain||'');
+                var om=p.order_match!==false,orderTxt=om?'✅':'❌';
+                var br=p.branch.split('_')[0]||'0',ci=branches[br]||0;
+                var col=MC[ci%MC.length];
+                var indent='&nbsp;&nbsp;'.repeat((p.depth||0)-1);
+                h+='<tr style="'+rowStyle+'"><td style="border-left:3px solid '+col+'">'+indent+he(p.name)+'</td><td style="text-align:right">'+p.mod_vtx+'</td><td style="text-align:right">'+p.abc_vtx+'</td><td style="'+stColor+'">'+st+'</td><td style="text-align:right;'+(diff>0?'color:#e05555;font-weight:600':'')+'">'+(diff>0?diff:'-')+'</td><td style="'+(frozen?'':'color:#e05555;font-weight:600')+'">'+frozenTxt+'</td><td style="'+(hm?'':'color:#e05555;font-weight:600')+';font-size:11px">'+hierTxt+'</td><td style="'+(om?'':'color:#e05555;font-weight:600')+'">'+orderTxt+'</td></tr>';
             });
             h+='</tbody></table>';
         }
