@@ -163,18 +163,28 @@ var BS='import maya.cmds as cmds,json,math\n'+
 '  hm=mod_parts==abc_parts\n'+
 '  if not hm:nh+=1\n'+
 '  md[n]={"mod_vtx":mr[n]["vtx"],"abc_vtx":ar[n]["vtx"],"status":s,"mod_transform":mr[n]["xf"],"hierarchy_match":hm,"mod_chain":"|".join(mod_parts),"abc_chain":"|".join(abc_parts)}\n'+
-' elif n in mr and n not in mo:mo.append(n)\n'+
-' elif n in ar and n not in ao:ao.append(n)\n'+
-'# 顺序对照：按大纲位置对比 mod vs abc\n'+
+' elif n in mr and n not in ar and n not in mo:mo.append(n)\n'+
+' elif n in ar and n not in mr and n not in ao:ao.append(n)\n'+
+'# 顺序对照：对齐算法 — 单边独有空出，顺序错位标红\n'+
 'ordered_pairs=[]\n'+
 'mnames=[m["name"] for m in mod_list];anames=[m["name"] for m in abc_list]\n'+
-'mx=max(len(mnames),len(anames))\n'+
-'for i in range(mx):\n'+
-' mn=mnames[i] if i<len(mnames) else ""\n'+
-' an=anames[i] if i<len(anames) else ""\n'+
-' same=mn==an\n'+
-' if not same:no+=1\n'+
-' ordered_pairs.append({"mod":mn,"abc":an,"same":same})\n'+
+'i=j=0\n'+
+'while i<len(mnames) or j<len(anames):\n'+
+' if i<len(mnames) and j<len(anames) and mnames[i]==anames[j]:\n'+
+'  ordered_pairs.append({"mod":mnames[i],"abc":anames[j],"same":True})\n'+
+'  i+=1;j+=1\n'+
+' elif i<len(mnames) and mnames[i] not in anames:\n'+
+'  # mod 独有\n'+
+'  ordered_pairs.append({"mod":mnames[i],"abc":"","same":False,"mod_only_row":True})\n'+
+'  i+=1;no+=1\n'+
+' elif j<len(anames) and anames[j] not in mnames:\n'+
+'  # abc 独有\n'+
+'  ordered_pairs.append({"mod":"","abc":anames[j],"same":False,"abc_only_row":True})\n'+
+'  j+=1;no+=1\n'+
+' else:\n'+
+'  # 双方都有但位置错位\n'+
+'  ordered_pairs.append({"mod":mnames[i] if i<len(mnames) else "","abc":anames[j] if j<len(anames) else "","same":False})\n'+
+'  i+=1;j+=1;no+=1\n'+
 'import datetime as dt\n'+
 'r={"mod_group":mod,"abc_group":abc,"time":dt.datetime.now().strftime("%Y-%m-%d %H:%M:%S"),"summary":{"total_pairs":ok+mm,"ok":ok,"mismatch":mm,"mod_only":len(mo),"abc_only":len(ao),"not_frozen":nf,"hierarchy_mismatch":nh,"order_mismatch":no},"ordered_pairs":ordered_pairs,"mesh_data":md,"mod_only":mo,"abc_only":ao,"structure_issues":issues}\n'+
 '\n'+
@@ -211,7 +221,10 @@ function genDiag(){
                 var st=d1?(d1.status==='ok'?'✅':(d1.status==='mismatch'?'❌ 顶点不符':'⚠')):'';
                 var frozen=d1&&d1.mod_transform?d1.mod_transform.frozen:true;
                 var ft=frozen?'✅':'❌';
-                h+='<tr style="'+rowStyle+'"><td style="padding:5px 10px">'+he(op.mod||'')+'</td><td style="padding:5px 10px">'+he(op.abc||'')+'</td><td style="padding:5px 10px;text-align:right">'+mv+'</td><td style="padding:5px 10px;text-align:right">'+av+'</td><td style="padding:5px 10px">'+st+'</td><td style="padding:5px 10px;'+(frozen?'':'color:#e05555;font-weight:600')+'">'+ft+'</td></tr>';
+                var modCell=op.mod?he(op.mod):(op.abc_only_row?'<span style="color:var(--dim)">—</span>':'');
+                var abcCell=op.abc?he(op.abc):(op.mod_only_row?'<span style="color:var(--dim)">—</span>':'');
+                var tag=op.mod_only_row?'<span style="color:#e05555;font-size:10px">(mod独有)</span>':(op.abc_only_row?'<span style="color:#e05555;font-size:10px">(abc独有)</span>':'');
+                h+='<tr style="'+rowStyle+'"><td style="padding:5px 10px">'+modCell+'</td><td style="padding:5px 10px">'+abcCell+'</td><td style="padding:5px 10px;text-align:right">'+mv+'</td><td style="padding:5px 10px;text-align:right">'+av+'</td><td style="padding:5px 10px">'+st+' '+tag+'</td><td style="padding:5px 10px;'+(frozen?'':'color:#e05555;font-weight:600')+'">'+ft+'</td></tr>';
             });
             h+='</tbody></table>';
         }
