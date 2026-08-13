@@ -165,29 +165,31 @@ var BS='import maya.cmds as cmds,json,math\n'+
 '  md[n]={"mod_vtx":mr[n]["vtx"],"abc_vtx":ar[n]["vtx"],"status":s,"mod_transform":mr[n]["xf"],"hierarchy_match":hm,"mod_chain":"|".join(mod_parts),"abc_chain":"|".join(abc_parts)}\n'+
 ' elif n in mr and n not in ar and n not in mo:mo.append(n)\n'+
 ' elif n in ar and n not in mr and n not in ao:ao.append(n)\n'+
-'# 顺序对照：对齐算法 — 单边独有空出，顺序错位标红\n'+
+'# 顺序对照：对齐算法 — 单边独有空出，顺序错位标红（含组行和深度信息）\n'+
 'ordered_pairs=[]\n'+
+'mlist_info={m["name"]:m for m in mod_list};alist_info={m["name"]:m for m in abc_list}\n'+
 'mnames=[m["name"] for m in mod_list];anames=[m["name"] for m in abc_list]\n'+
 'i=j=0\n'+
 'while i<len(mnames) or j<len(anames):\n'+
 ' if i<len(mnames) and j<len(anames) and mnames[i]==anames[j]:\n'+
-'  ordered_pairs.append({"mod":mnames[i],"abc":anames[j],"same":True})\n'+
+'  mi=mlist_info[mnames[i]]\n'+
+'  ordered_pairs.append({"mod":mnames[i],"abc":anames[j],"same":True,"is_group":not mi["is_mesh"],"depth":mi["depth"]})\n'+
 '  i+=1;j+=1\n'+
 ' elif i<len(mnames) and j<len(anames) and mnames[i] not in anames and anames[j] not in mnames:\n'+
-'  # 双方同名位置但命名不同（如 jianjia_geo vs jianjia_geo2）→ 同行标红\n'+
-'  ordered_pairs.append({"mod":mnames[i],"abc":anames[j],"same":False,"name_mismatch":True})\n'+
+'  mi=mlist_info[mnames[i]]\n'+
+'  ordered_pairs.append({"mod":mnames[i],"abc":anames[j],"same":False,"name_mismatch":True,"is_group":not mi["is_mesh"],"depth":mi["depth"]})\n'+
 '  i+=1;j+=1;no+=1\n'+
 ' elif i<len(mnames) and mnames[i] not in anames:\n'+
-'  # mod 独有\n'+
-'  ordered_pairs.append({"mod":mnames[i],"abc":"","same":False,"mod_only_row":True})\n'+
+'  mi=mlist_info[mnames[i]]\n'+
+'  ordered_pairs.append({"mod":mnames[i],"abc":"","same":False,"mod_only_row":True,"is_group":not mi["is_mesh"],"depth":mi["depth"]})\n'+
 '  i+=1;no+=1\n'+
 ' elif j<len(anames) and anames[j] not in mnames:\n'+
-'  # abc 独有\n'+
-'  ordered_pairs.append({"mod":"","abc":anames[j],"same":False,"abc_only_row":True})\n'+
+'  ai=alist_info[anames[j]]\n'+
+'  ordered_pairs.append({"mod":"","abc":anames[j],"same":False,"abc_only_row":True,"is_group":not ai["is_mesh"],"depth":ai["depth"]})\n'+
 '  j+=1;no+=1\n'+
 ' else:\n'+
-'  # 双方都有但位置错位\n'+
-'  ordered_pairs.append({"mod":mnames[i] if i<len(mnames) else "","abc":anames[j] if j<len(anames) else "","same":False})\n'+
+'  mi=mlist_info[mnames[i]] if i<len(mnames) else {"is_mesh":True,"depth":0}\n'+
+'  ordered_pairs.append({"mod":mnames[i] if i<len(mnames) else "","abc":anames[j] if j<len(anames) else "","same":False,"is_group":not mi["is_mesh"],"depth":mi["depth"]})\n'+
 '  i+=1;j+=1;no+=1\n'+
 'import datetime as dt\n'+
 'r={"mod_group":mod,"abc_group":abc,"time":dt.datetime.now().strftime("%Y-%m-%d %H:%M:%S"),"summary":{"total_pairs":ok+mm,"ok":ok,"mismatch":mm,"mod_only":len(mo),"abc_only":len(ao),"not_frozen":nf,"hierarchy_mismatch":nh,"order_mismatch":no},"ordered_pairs":ordered_pairs,"mesh_data":md,"mod_only":mo,"abc_only":ao,"structure_issues":issues}\n'+
@@ -217,6 +219,16 @@ function genDiag(){
         if(data.ordered_pairs&&data.ordered_pairs.length){
             h+='<table><thead><tr style="background:var(--border)"><th style="text-align:left">mod 层级顺序</th><th style="text-align:left">abc 层级顺序</th><th style="text-align:right">mod顶点</th><th style="text-align:right">ABC顶点</th><th>状态</th><th>冻结</th></tr></thead><tbody>';
             data.ordered_pairs.forEach(function(op){
+                var dep=(op.depth||0);
+                var MCg=['#b8a99a','#9cadb0','#c0a8b0','#a0b0a0','#c0a098','#8ab0a8','#b0a0c0','#b0b098'];
+                var col=MCg[(dep-1)%MCg.length];
+                var indent='&nbsp;&nbsp;'.repeat(dep-1);
+                if(op.is_group){
+                    var gmod=op.mod?'📁 '+he(op.mod):'<span style="color:var(--dim)">—</span>';
+                    var gabc=op.abc?'📁 '+he(op.abc):'<span style="color:var(--dim)">—</span>';
+                    var gtag=op.mod_only_row?'<span style="color:#e05555;font-size:10px">(mod独有)</span>':(op.abc_only_row?'<span style="color:#e05555;font-size:10px">(abc独有)</span>':(op.name_mismatch?'<span style="color:#e05555;font-size:10px">(命名不同)</span>':''));
+                    h+='<tr style="'+rowStyle+'"><td style="padding:4px 10px;border-left:4px solid '+col+';color:'+col+';font-weight:600">'+indent+gmod+gtag+'</td><td style="padding:4px 10px;border-left:4px solid '+col+';color:'+col+';font-weight:600">'+indent+gabc+'</td><td colspan="4"></td></tr>';
+                } else {
                 var same=op.same!==false;
                 var rowStyle=!same?'background:#e0555518':'';
                 var d1=op.mod?(data.mesh_data&&data.mesh_data[op.mod]):null;
@@ -228,7 +240,8 @@ function genDiag(){
                 var modCell=op.mod?he(op.mod):(op.abc_only_row?'<span style="color:var(--dim)">—</span>':'');
                 var abcCell=op.abc?he(op.abc):(op.mod_only_row?'<span style="color:var(--dim)">—</span>':'');
                 var tag=op.mod_only_row?'<span style="color:#e05555;font-size:10px">(mod独有)</span>':(op.abc_only_row?'<span style="color:#e05555;font-size:10px">(abc独有)</span>':(op.name_mismatch?'<span style="color:#e05555;font-size:10px">(命名不同)</span>':''));
-                h+='<tr style="'+rowStyle+'"><td style="padding:5px 10px">'+modCell+'</td><td style="padding:5px 10px">'+abcCell+'</td><td style="padding:5px 10px;text-align:right">'+mv+'</td><td style="padding:5px 10px;text-align:right">'+av+'</td><td style="padding:5px 10px">'+st+' '+tag+'</td><td style="padding:5px 10px;'+(frozen?'':'color:#e05555;font-weight:600')+'">'+ft+'</td></tr>';
+                h+='<tr style="'+rowStyle+'"><td style="padding:5px 10px;border-left:3px solid '+col+'">'+indent+modCell+'</td><td style="padding:5px 10px">'+abcCell+'</td><td style="padding:5px 10px;text-align:right">'+mv+'</td><td style="padding:5px 10px;text-align:right">'+av+'</td><td style="padding:5px 10px">'+st+' '+tag+'</td><td style="padding:5px 10px;'+(frozen?'':'color:#e05555;font-weight:600')+'">'+ft+'</td></tr>';
+                }
             });
             h+='</tbody></table>';
         }
