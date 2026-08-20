@@ -103,8 +103,8 @@ var BS='import maya.cmds as cmds,json,math\n'+
 '  sh=cmds.listRelatives(c,shapes=True,type="mesh",fullPath=True)or[]\n'+
 '  if sh:\n'+
 '   v=cmds.polyEvaluate(c,v=True)\n'+
-'   mnode={"name":sn(c),"path":c,"is_mesh":True,"is_group":False,"vtx":v,"xf":get_xf(c),"children":[],"child_order":[]}\n'+
-'   # 检查中间组节点 transform\n'+
+'   fc=cmds.polyEvaluate(c,f=True)\n'+
+'   mnode={"name":sn(c),"path":c,"is_mesh":True,"is_group":False,"vtx":v,"fcs":fc,"xf":get_xf(c),"children":[],"child_order":[],"shapes":[sn(s) for s in sh]}\n'+
 '   node["children"].append(mnode)\n'+
 '   node["child_order"].append(sn(c))\n'+
 '  else:\n'+
@@ -147,7 +147,7 @@ var BS='import maya.cmds as cmds,json,math\n'+
 'for m in abc_list:\n'+
 ' if m["is_mesh"]:ar[m["name"]]=m\n'+
 '# 按大纲顺序生成 mod/abc 两个列表\n'+
-'mo=[];ao=[];ok=0;mm=0;nf=0;nh=0;no=0;md={}\n'+
+'mo=[];ao=[];ok=0;mm=0;nf=0;nh=0;no=0;ns=0;md={}\n'+
 'for m in mod_list+abc_list:\n'+
 ' n=m["name"]\n'+
 ' if not m["is_mesh"]:continue\n'+
@@ -162,7 +162,14 @@ var BS='import maya.cmds as cmds,json,math\n'+
 '  abc_parts=afull[afull.index(arname):] if arname in afull else afull\n'+
 '  hm=mod_parts==abc_parts\n'+
 '  if not hm:nh+=1\n'+
-'  md[n]={"mod_vtx":mr[n]["vtx"],"abc_vtx":ar[n]["vtx"],"status":s,"mod_transform":mr[n]["xf"],"hierarchy_match":hm,"mod_chain":"|".join(mod_parts),"abc_chain":"|".join(abc_parts)}\n'+
+'  # shape 节点名对比（blendShape 按 shape 名匹配，名字不一致会连不上）\n'+
+'  sm=mr[n]["shapes"][0] if mr[n]["shapes"] else ""\n'+
+'  sa=ar[n]["shapes"][0] if ar[n]["shapes"] else ""\n'+
+'  shm=sm==sa\n'+
+'  if not shm:ns+=1\n'+
+'  # 面数对比\n'+
+'  fm=mr[n]["fcs"]==ar[n]["fcs"]\n'+
+'  md[n]={"mod_vtx":mr[n]["vtx"],"abc_vtx":ar[n]["vtx"],"mod_fcs":mr[n]["fcs"],"abc_fcs":ar[n]["fcs"],"status":s,"mod_transform":mr[n]["xf"],"hierarchy_match":hm,"mod_chain":"|".join(mod_parts),"abc_chain":"|".join(abc_parts),"shape_match":shm,"mod_shape":sm,"abc_shape":sa,"face_match":fm}\n'+
 ' elif n in mr and n not in ar and n not in mo:mo.append(n)\n'+
 ' elif n in ar and n not in mr and n not in ao:ao.append(n)\n'+
 '# 顺序对照：对齐算法 — 单边独有空出，顺序错位标红（含组行和深度信息）\n'+
@@ -192,7 +199,7 @@ var BS='import maya.cmds as cmds,json,math\n'+
 '  ordered_pairs.append({"mod":mnames[i] if i<len(mnames) else "","abc":anames[j] if j<len(anames) else "","same":False,"is_group":not mi["is_mesh"],"depth":mi["depth"]})\n'+
 '  i+=1;j+=1;no+=1\n'+
 'import datetime as dt\n'+
-'r={"mod_group":mod,"abc_group":abc,"time":dt.datetime.now().strftime("%Y-%m-%d %H:%M:%S"),"summary":{"total_pairs":ok+mm,"ok":ok,"mismatch":mm,"mod_only":len(mo),"abc_only":len(ao),"not_frozen":nf,"hierarchy_mismatch":nh,"order_mismatch":no},"ordered_pairs":ordered_pairs,"mesh_data":md,"mod_only":mo,"abc_only":ao,"structure_issues":issues}\n'+
+'r={"mod_group":mod,"abc_group":abc,"time":dt.datetime.now().strftime("%Y-%m-%d %H:%M:%S"),"summary":{"total_pairs":ok+mm,"ok":ok,"mismatch":mm,"mod_only":len(mo),"abc_only":len(ao),"not_frozen":nf,"hierarchy_mismatch":nh,"order_mismatch":no,"shape_mismatch":ns},"ordered_pairs":ordered_pairs,"mesh_data":md,"mod_only":mo,"abc_only":ao,"structure_issues":issues}\n'+
 '\n'+
 'print("\\n=== COPY JSON BELOW ===\\n"+json.dumps(r,ensure_ascii=False,indent=2))';
 
@@ -240,7 +247,10 @@ function genDiag(){
                 var modCell=op.mod?he(op.mod):(op.abc_only_row?'<span style="color:var(--dim)">—</span>':'');
                 var abcCell=op.abc?he(op.abc):(op.mod_only_row?'<span style="color:var(--dim)">—</span>':'');
                 var tag=op.mod_only_row?'<span style="color:#e05555;font-size:10px">(mod独有)</span>':(op.abc_only_row?'<span style="color:#e05555;font-size:10px">(abc独有)</span>':(op.name_mismatch?'<span style="color:#e05555;font-size:10px">(命名不同)</span>':''));
-                h+='<tr style="'+rowStyle+'"><td style="padding:5px 10px;border-left:3px solid '+col+'">'+indent+modCell+'</td><td style="padding:5px 10px">'+abcCell+'</td><td style="padding:5px 10px;text-align:right">'+mv+'</td><td style="padding:5px 10px;text-align:right">'+av+'</td><td style="padding:5px 10px">'+st+' '+tag+'</td><td style="padding:5px 10px;'+(frozen?'':'color:#e05555;font-weight:600')+'">'+ft+'</td></tr>';
+                var shm2=d1?d1.shape_match:true;
+                var shTag=!shm2?'<span style="color:#e05555;font-size:10px">(shape名: '+he(d1.mod_shape||'')+' vs '+he(d1.abc_shape||'')+')</span>':'';
+
+                h+='<tr style="'+rowStyle+'"><td style="padding:5px 10px;border-left:3px solid '+col+'">'+indent+modCell+'</td><td style="padding:5px 10px">'+abcCell+'</td><td style="padding:5px 10px;text-align:right">'+mv+'</td><td style="padding:5px 10px;text-align:right">'+av+'</td><td style="padding:5px 10px">'+st+' '+tag+shTag+'</td><td style="padding:5px 10px;'+(frozen?'':'color:#e05555;font-weight:600')+'">'+ft+'</td></tr>';
                 }
             });
             h+='</tbody></table>';
