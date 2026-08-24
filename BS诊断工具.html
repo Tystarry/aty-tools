@@ -148,6 +148,9 @@ var BS='import maya.cmds as cmds,json,math\n'+
 ' if m["is_mesh"]:ar[m["name"]]=m\n'+
 '# 按大纲顺序生成 mod/abc 两个列表\n'+
 'mo=[];ao=[];ok=0;mm=0;nf=0;nh=0;no=0;ns=0;md={}\n'+
+'# 冻结链检查辅助：收集所有节点(组+mesh)的冻结状态\n'+
+'mfree={m["path"]:m["xf"]["frozen"] for m in mod_list}\n'+
+'afree={m["path"]:m["xf"]["frozen"] for m in abc_list}\n'+
 'for m in mod_list+abc_list:\n'+
 ' n=m["name"]\n'+
 ' if not m["is_mesh"]:continue\n'+
@@ -155,7 +158,6 @@ var BS='import maya.cmds as cmds,json,math\n'+
 '  s="ok"if mr[n]["vtx"]==ar[n]["vtx"]else"mismatch"\n'+
 '  if s=="ok":ok+=1\n'+
 '  else:mm+=1\n'+
-'  if not mr[n]["xf"]["frozen"]:nf+=1\n'+
 '  mfull=[sn(p)for p in mr[n]["path"].split("|")];afull=[sn(p)for p in ar[n]["path"].split("|")]\n'+
 '  mrname=sn(mod_root);arname=sn(abc_root)\n'+
 '  mod_parts=mfull[mfull.index(mrname):] if mrname in mfull else mfull\n'+
@@ -169,7 +171,16 @@ var BS='import maya.cmds as cmds,json,math\n'+
 '  if not shm:ns+=1\n'+
 '  # 面数对比\n'+
 '  fm=mr[n]["fcs"]==ar[n]["fcs"]\n'+
-'  md[n]={"mod_vtx":mr[n]["vtx"],"abc_vtx":ar[n]["vtx"],"mod_fcs":mr[n]["fcs"],"abc_fcs":ar[n]["fcs"],"status":s,"mod_transform":mr[n]["xf"],"hierarchy_match":hm,"mod_chain":"|".join(mod_parts),"abc_chain":"|".join(abc_parts),"shape_match":shm,"mod_shape":sm,"abc_shape":sa,"face_match":fm}\n'+
+'  # 冻结链检查：mod 和 abc 两边的整条链（组+mesh）都查\n'+
+'  unfrozen_nodes=[]\n'+
+'  for ci in range(len(mfull)):\n'+
+'   cum="|".join(mfull[:ci+1])\n'+
+'   if cum in mfree and not mfree[cum]:unfrozen_nodes.append("mod:"+sn(cum))\n'+
+'  for ci in range(len(afull)):\n'+
+'   cum="|".join(afull[:ci+1])\n'+
+'   if cum in afree and not afree[cum]:unfrozen_nodes.append("abc:"+sn(cum))\n'+
+'  if unfrozen_nodes:nf+=1\n'+
+'  md[n]={"mod_vtx":mr[n]["vtx"],"abc_vtx":ar[n]["vtx"],"mod_fcs":mr[n]["fcs"],"abc_fcs":ar[n]["fcs"],"status":s,"mod_transform":mr[n]["xf"],"abc_transform":ar[n]["xf"],"hierarchy_match":hm,"mod_chain":"|".join(mod_parts),"abc_chain":"|".join(abc_parts),"shape_match":shm,"mod_shape":sm,"abc_shape":sa,"face_match":fm,"unfrozen_nodes":unfrozen_nodes}\n'+
 ' elif n in mr and n not in ar and n not in mo:mo.append(n)\n'+
 ' elif n in ar and n not in mr and n not in ao:ao.append(n)\n'+
 '# 顺序对照：对齐算法 — 单边独有空出，顺序错位标红（含组行和深度信息）\n'+
@@ -242,8 +253,9 @@ function genDiag(){
                 var d2=op.abc?(data.mesh_data&&data.mesh_data[op.abc]):null;
                 var mv=d1?d1.mod_vtx:'';var av=d2?d2.abc_vtx:'';
                 var st=d1?(d1.status==='ok'?'✅':(d1.status==='mismatch'?'❌ 顶点不符':'⚠')):'';
-                var frozen=d1&&d1.mod_transform?d1.mod_transform.frozen:true;
-                var ft=frozen?'✅':'❌';
+                var unf=d1&&d1.unfrozen_nodes?d1.unfrozen_nodes:[];
+                var frozen=unf.length===0;
+                var ft=frozen?'✅':'❌ '+unf.join(' ');
                 var modCell=op.mod?he(op.mod):(op.abc_only_row?'<span style="color:var(--dim)">—</span>':'');
                 var abcCell=op.abc?he(op.abc):(op.mod_only_row?'<span style="color:var(--dim)">—</span>':'');
                 var tag=op.mod_only_row?'<span style="color:#e05555;font-size:10px">(mod独有)</span>':(op.abc_only_row?'<span style="color:#e05555;font-size:10px">(abc独有)</span>':(op.name_mismatch?'<span style="color:#e05555;font-size:10px">(命名不同)</span>':''));
