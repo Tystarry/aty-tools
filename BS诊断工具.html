@@ -117,7 +117,7 @@ var BS='import maya.cmds as cmds,json,math\n'+
 ' if not node["is_mesh"] and depth>0:\n'+
 '  result.append({"name":node["name"],"parent":parent_name,"depth":depth,"branch":branch_id,"path":node["path"],"vtx":0,"xf":node["xf"],"is_mesh":False,"is_group":True})\n'+
 ' if node["is_mesh"]:\n'+
-'  result.append({"name":node["name"],"parent":parent_name,"depth":depth,"branch":branch_id,"path":node["path"],"vtx":node["vtx"],"xf":node["xf"],"is_mesh":True})\n'+
+'  result.append({"name":node["name"],"parent":parent_name,"depth":depth,"branch":branch_id,"path":node["path"],"vtx":node["vtx"],"xf":node["xf"],"is_mesh":True,"shapes":node.get("shapes",[]),"fcs":node.get("fcs",0)})\n'+
 ' else:\n'+
 '  for i,ch in enumerate(node["children"]):\n'+
 '   walk_tree(ch,node["name"],depth+1,branch_id+"_"+str(i),result)\n'+
