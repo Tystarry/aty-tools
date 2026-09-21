@@ -123,6 +123,7 @@ body{font-family:"Segoe UI","Microsoft YaHei",sans-serif;background:var(--bg);co
 <button class="fbtn" data-sw="Nuke" onclick="setFilt('Nuke',this)">Nuke</button>
 <button class="fbtn" data-sw="UE" onclick="setFilt('UE',this)">UE</button>
 <button class="fbtn" data-sw="素材" onclick="setFilt('素材',this)">🎨 素材库</button>
+<button class="fbtn" style="border-color:#8ab0a8;color:#8ab0a8" onclick="openUpload()" title="上传素材（管理员）">⬆️ 上传素材</button>
 </div>
 <div class="main">
 <nav class="side" id="side"></nav>
@@ -153,12 +154,34 @@ body{font-family:"Segoe UI","Microsoft YaHei",sans-serif;background:var(--bg);co
 </div>
 </div>
 
+<!-- 素材上传弹窗 -->
+<div class="modal-overlay" id="upload-modal" onclick="if(event.target===this)closeUpload()">
+<div class="modal-box" style="max-width:560px">
+<button class="modal-close" onclick="closeUpload()">✕</button>
+<h2>⬆️ 上传素材</h2>
+<div style="display:grid;grid-template-columns:100px 1fr;gap:8px 12px;font-size:13px;align-items:center">
+  <span>分类</span><select id="up-cat" style="background:var(--inp);border:1px solid var(--border);border-radius:6px;color:var(--text);padding:6px"></select>
+  <span>素材名</span><input id="up-name" placeholder="必填，如 金属材质01" style="background:var(--inp);border:1px solid var(--border);border-radius:6px;color:var(--text);padding:6px;font-size:13px">
+  <span>说明</span><textarea id="up-desc" rows="2" placeholder="卡片上的自定义说明" style="background:var(--inp);border:1px solid var(--border);border-radius:6px;color:var(--text);padding:6px;font-size:13px;resize:vertical;font-family:inherit"></textarea>
+  <span>缩略图</span><input id="up-thumb" type="file" accept="image/*" style="color:var(--dim);font-size:12px">
+  <span>素材文件</span><input id="up-files" type="file" multiple style="color:var(--dim);font-size:12px">
+  <span></span><div style="font-size:11px;color:var(--dim)">可多选文件；单个文件 ≤ 90MB（GitHub 上限 100MB）。超大文件（HDRI 等）建议本地素材库方式</div>
+</div>
+<div style="margin-top:12px;display:flex;gap:10px;align-items:center">
+  <button class="card-btn" style="background:var(--accent);color:#1a1d23" onclick="doUpload()">🚀 上传</button>
+  <span id="up-status" style="font-size:12px;color:var(--dim)"></span>
+</div>
+<div id="up-log" style="margin-top:10px;max-height:160px;overflow-y:auto;font-size:11px;color:var(--dim);font-family:monospace"></div>
+</div>
+</div>
+
 <script type="application/json" id="data-store">
-[{"software": "Maya", "subtag": "arnold", "category": "成功", "name": "aov-duplicate-alias-fix", "description": "Maya Arnold AOV 重复别名修复 — 解决 \\\"ai_aov_xxx is not a unique name\\\" 报错", "usage": ["# 一键修复\nexec(open(r'D:\\zcy\\ai_ty\\fix_maya_aov_duplicate_alias.py', encoding='utf-8').read())\n\n# 命令行模式\nmayapy.exe fix_maya_aov_duplicate_alias.py scene.ma\n\n# 永久生效（userSetup.py）\nimport fix_maya_aov_duplicate_alias\nfix_maya_aov_duplicate_alias.patch_mtoa()\n\n# crypto_asset 专项\nexec(open(r'D:\\zcy\\ai_ty\\fix_aov_crypto_asset.py', encoding='utf-8').read())"], "files": [], "package": "maya_aov_fix.zip", "is_tracking": false, "errorPatterns": ["ai_aov_xxx is not a unique name"], "embeddedScripts": [], "body": "Maya + Arnold (MtoA) AOV 重复别名修复 — 解决着色引擎上 \"ai_aov_xxx is not a unique name\" 报错，恢复 AOV Editor 正常使用\n\n📦 3个脚本覆盖不同场景 — 简易版单别名快速修复 / 完整版全场景扫描 / crypto_asset 专项修复\n\n🔧 MtoA 热修补 — 集成到 userSetup.py 永久生效，无需每次手动运行\n\n🧹 removeMultiInstance 兜底 — 处理原版 aliasAttr(remove=True) 无法解决的重复别名\n\n🖥️ 双模式运行 — Maya Script Editor 一键执行 或 mayapy 命令行批量处理\n\n```python\n# 一键修复\nexec(open(r'D:\\zcy\\ai_ty\\fix_maya_aov_duplicate_alias.py', encoding='utf-8').read())\n\n# 命令行模式\nmayapy.exe fix_maya_aov_duplicate_alias.py scene.ma\n\n# 永久生效（userSetup.py）\nimport fix_maya_aov_duplicate_alias\nfix_maya_aov_duplicate_alias.patch_mtoa()\n\n# crypto_asset 专项\nexec(open(r'D:\\zcy\\ai_ty\\fix_aov_crypto_asset.py', encoding='utf-8').read())\n```", "methods": [{"name": "一键修复", "pros": ["一条命令，复制即用"], "cons": ["需在 Script Editor 中运行"], "color": "#b8a99a", "code": "exec(open(r'D:\\zcy\\ai_ty\\fix_maya_aov_duplicate_alias.py', encoding='utf-8').read())"}, {"name": "命令行模式", "pros": ["无需打开 Maya UI"], "cons": ["需要命令行"], "color": "#9cadb0", "code": "mayapy.exe fix_maya_aov_duplicate_alias.py scene.ma"}, {"name": "永久生效（userSetup.py）", "pros": ["可按需分步调用"], "cons": ["—"], "color": "#c0a8b0", "code": "import fix_maya_aov_duplicate_alias\nfix_maya_aov_duplicate_alias.patch_mtoa()"}, {"name": "crypto_asset 专项", "pros": ["一条命令，复制即用"], "cons": ["需在 Script Editor 中运行"], "color": "#a0b0a0", "code": "exec(open(r'D:\\zcy\\ai_ty\\fix_aov_crypto_asset.py', encoding='utf-8').read())"}]}, {"software": "Maya", "subtag": "通用", "category": "成功", "name": "bs-diagnostic", "description": "BS诊断 — Maya ABC 流程 blendShape 对照工具，脚本输出 JSON → 仪表盘生成清单导出 PDF", "usage": [], "files": [], "package": "BS诊断工具.zip", "is_tracking": false, "errorPatterns": [], "embeddedScripts": [], "body": "Maya ABC 流程 blendShape 诊断工具 — 对比 mod 模型和 ABC 缓存，输出 JSON → 仪表盘生成清单 → 导出 PDF 反馈给其他环节\n\n🔬 自动诊断 — 输入 mod 组名和 ABC 组名，逐一对比所有 mesh 的配对情况\n\n📏 顶点数校验 — 检测配对 mesh 顶点数是否一致，区分可连接（绿标）和不匹配（红标）并显示差值\n\n🏗️ 结构检查 — 验证 transform freeze 状态、层次结构、父子顺序是否正确\n\n📋 JSON 输出 — 诊断结果粘贴到仪表盘生成清单，导出 PDF 直接发给绑定/模型环节", "methods": []}, {"software": "Maya", "subtag": "通用", "category": "成功", "name": "light-copy-and-rename", "description": "Maya 灯光工具 — 复制灯光组自动递增命名、查找修复重复命名灯光", "usage": ["# 复制灯光组（自动递增命名）\nexec(open(r'D:\\zcy\\ai_ty\\copy_light_group.py', encoding='utf-8').read())\n\n# 查找并修复重复灯光（支持仅检查/预览/修复三种模式）\nexec(open(r'D:\\zcy\\ai_ty\\fix_duplicate_light_names.py', encoding='utf-8').read())"], "files": [], "package": "maya_light_tools.zip", "is_tracking": false, "errorPatterns": [], "embeddedScripts": [], "body": "Maya 灯光管理工具 — 复制灯光组自动递增命名 + 查找并修复场景中重复的灯光名称\n\n📋 复制灯光组 — 选中灯光组一键复制，所有子灯光自动递增命名，保持原层级结构\n\n🔎 查找重复灯光 — 全场景扫描重名灯光，支持仅检查 / 预览修改 / 直接修复三种模式\n\n💡 广泛兼容 — Maya 原生灯光（spotLight, areaLight 等）+ Arnold（aiAreaLight, aiSkyDomeLight 等）+ Redshift\n\n🚫 安全跳过参考节点 — 自动忽略 reference 中的灯光，避免修改参考文件\n\n```python\n# 复制灯光组（自动递增命名）\nexec(open(r'D:\\zcy\\ai_ty\\copy_light_group.py', encoding='utf-8').read())\n\n# 查找并修复重复灯光（支持仅检查/预览/修复三种模式）\nexec(open(r'D:\\zcy\\ai_ty\\fix_duplicate_light_names.py', encoding='utf-8').read())\n```", "methods": [{"name": "复制灯光组（自动递增命名）", "pros": ["一条命令，复制即用"], "cons": ["需在 Script Editor 中运行"], "color": "#b8a99a", "code": "exec(open(r'D:\\zcy\\ai_ty\\copy_light_group.py', encoding='utf-8').read())"}, {"name": "查找并修复重复灯光（支持仅检查/预览/修复三种模式）", "pros": ["一条命令，复制即用"], "cons": ["需在 Script Editor 中运行"], "color": "#9cadb0", "code": "exec(open(r'D:\\zcy\\ai_ty\\fix_duplicate_light_names.py', encoding='utf-8').read())"}]}, {"software": "Maya", "subtag": "通用", "category": "成功", "name": "Render Queue 渲染队列", "description": "Maya 渲染队列管理器 — 独立桌面App，commandPort控制Maya批量渲染", "usage": [], "files": [], "package": "maya_render_queue.zip", "is_tracking": false, "errorPatterns": [], "embeddedScripts": [], "body": "独立桌面应用（PySide2），通过 commandPort 控制 Maya 自动批量渲染\n\n\n📋 多文件队列逐一渲染，支持 Arnold / Redshift\n\n🎯 自动读取场景设置（帧范围、分辨率、采样、输出路径）\n\n✅ 渲染层可选勾选，按顺序自动完成\n\n🚀 解压后双击「安装.bat」一键安装到桌面，或双击 run.bat 免安装直接启动", "methods": []}, {"software": "Maya", "subtag": "通用", "category": "成功", "name": "maya-startup-fix", "description": "Maya 启动报错一键修复 — 解锁defaultTextureList1 + colorSpace修复 + filePathEditor清理", "usage": ["# 一键修复\nexec(open(r'D:\\zcy\\ai_ty\\maya_startup_fix.py', encoding='utf-8').read())\n\n# 单独调用特定功能\nimport maya_startup_fix\nmaya_startup_fix.unlock_default_texture_list()\nmaya_startup_fix.fix_file_colorspaces()"], "files": [], "package": "maya_startup_fix.zip", "is_tracking": false, "errorPatterns": ["Connection not made: Destination is locked", "is not defined"], "embeddedScripts": [], "body": "Maya 启动报错一键修复 — 4项自动化检测与修复，消除每次启动的控制台报错和警告\n\n🔓 解锁 defaultTextureList1 — 修复 \"Connection not made: Destination is locked\" 连接错误\n\n🧹 清理 filePathEditor 注册表 — 消除重复文件路径 \"have been saved already\" 警告\n\n🎨 修复 file 节点 colorSpace — 解决 \"Color space 'sRGB' is not defined\" 报错\n\n🔍 扫描缺失路径 — 检测 XGen / 贴图丢失路径（仅报告不自动修复，避免误删）\n\n⚡ 灵活调用 — 支持一键全自动修复 或 import 后单独调用特定功能函数\n\n```python\n# 一键修复\nexec(open(r'D:\\zcy\\ai_ty\\maya_startup_fix.py', encoding='utf-8').read())\n\n# 单独调用特定功能\nimport maya_startup_fix\nmaya_startup_fix.unlock_default_texture_list()\nmaya_startup_fix.fix_file_colorspaces()\n```", "methods": [{"name": "一键修复", "pros": ["一条命令，复制即用"], "cons": ["需在 Script Editor 中运行"], "color": "#b8a99a", "code": "exec(open(r'D:\\zcy\\ai_ty\\maya_startup_fix.py', encoding='utf-8').read())"}, {"name": "单独调用特定功能", "pros": ["可按需分步调用"], "cons": ["—"], "color": "#9cadb0", "code": "import maya_startup_fix\nmaya_startup_fix.unlock_default_texture_list()\nmaya_startup_fix.fix_file_colorspaces()"}]}, {"software": "Maya", "subtag": "通用", "category": "成功", "name": "rig-cleaner-tools", "description": "Maya .ma 文件清理工具 — 扫描孤儿节点、删除冗余历史、清理 UI 数据提升视口性能", "usage": ["# 1. 分析（只读不写）\npython scan_orphans.py\n\n# 2. 逐轮清理（自动备份）\npython clean_rig_file.py\npython clean_round2.py\npython fix_hyperShade_refs.py"], "files": [], "package": "maya_rig_cleaner.zip", "is_tracking": false, "errorPatterns": [], "embeddedScripts": [], "body": "4个独立 Python 脚本，清理 Maya .ma 绑定文件中累积的垃圾数据，显著提升文件加载速度和视口 FPS\n\n🔍 扫描孤儿节点 — 全文件扫描，按类型统计 groupId、animCurveUU、network 等无引用节点\n\n🧹 清理冗余 UI 数据 — 移除 nodeGraphEditorInfo、hyperShadePrimary 等编辑历史记录\n\n✂️ 删除遗留构造历史 — polyBridgeEdge、polyExtrudeFace 等不再需要的操作节点\n\n💾 自动备份原文件 — 每次修改前自动创建 .bak 备份，安全可逆\n\n🐍 不依赖 Maya — 纯 Python 处理 .ma 文本文件，命令行直接运行\n\n```bash\n# 1. 分析（只读不写）\npython scan_orphans.py\n\n# 2. 逐轮清理（自动备份）\npython clean_rig_file.py\npython clean_round2.py\npython fix_hyperShade_refs.py\n```", "methods": [{"name": "1. 分析（只读不写）", "pros": ["直接可用"], "cons": ["—"], "color": "#b8a99a", "code": "python scan_orphans.py"}, {"name": "2. 逐轮清理（自动备份）", "pros": ["直接可用"], "cons": ["—"], "color": "#9cadb0", "code": "python clean_rig_file.py\npython clean_round2.py\npython fix_hyperShade_refs.py"}]}, {"name": "Cryptomatte matteList 格式转换", "description": "新旧 Cryptomatte 节点 matteList 格式互转工具", "tracking_detail": {"#": "1", "名称": "Cryptomatte matteList 格式转换", "功能简述": "新旧 Cryptomatte 节点 matteList 格式互转工具", "当前进度": "仅完成了格式差异分析文档", "待完善": "需要写成自动化脚本/工具", "相关文件": "参考文档（待迁移）", "最后更新": "2026-07"}, "software": "Nuke", "subtag": "通用", "category": "暂时没有", "is_tracking": true, "methods": []}, {"software": "系统", "subtag": "通用", "category": "成功", "name": "portable-toolbox", "description": "借用电脑工具箱 — 一键解绑 + 新电脑一键部署（install.bat / uninstall.bat）", "usage": [], "files": [], "package": "AI_TY_便携工具箱.zip", "is_tracking": false, "errorPatterns": [], "embeddedScripts": [], "body": "借用电脑便携工具箱 — 所有工具集中在 d:\\zcy\\ai_ty\\，一键解绑清除痕迹 + 新电脑一键部署\n\n📦 完整打包仅 12MB — 包含所有脚本、配置和依赖，U盘拷贝即可带走\n\n🔌 一键解绑 (uninstall.bat) — 清除本机所有个人痕迹和注册信息\n\n🚀 一键部署 (install.bat) — 新电脑放任意位置运行，即插即用\n\n💼 便携设计 — 无需安装、无需管理员权限，目录自包含", "methods": []}, {"software": "素材", "subtag": "材质球", "category": "素材", "name": "示例_金属材质", "description": "这是一个示例金属材质，用于演示素材库功能", "thumbnail": "assets/材质球/示例_金属材质.png", "download": "assets/材质球/示例_金属材质.zip", "is_asset": true}]
+[{"software": "Maya", "subtag": "arnold", "category": "成功", "name": "aov-duplicate-alias-fix", "description": "Maya Arnold AOV 重复别名修复 — 解决 \\\"ai_aov_xxx is not a unique name\\\" 报错", "usage": ["# 一键修复\nexec(open(r'D:\\zcy\\ai_ty\\fix_maya_aov_duplicate_alias.py', encoding='utf-8').read())\n\n# 命令行模式\nmayapy.exe fix_maya_aov_duplicate_alias.py scene.ma\n\n# 永久生效（userSetup.py）\nimport fix_maya_aov_duplicate_alias\nfix_maya_aov_duplicate_alias.patch_mtoa()\n\n# crypto_asset 专项\nexec(open(r'D:\\zcy\\ai_ty\\fix_aov_crypto_asset.py', encoding='utf-8').read())"], "files": [], "package": "maya_aov_fix.zip", "is_tracking": false, "errorPatterns": ["ai_aov_xxx is not a unique name"], "embeddedScripts": [], "body": "Maya + Arnold (MtoA) AOV 重复别名修复 — 解决着色引擎上 \"ai_aov_xxx is not a unique name\" 报错，恢复 AOV Editor 正常使用\n\n📦 3个脚本覆盖不同场景 — 简易版单别名快速修复 / 完整版全场景扫描 / crypto_asset 专项修复\n\n🔧 MtoA 热修补 — 集成到 userSetup.py 永久生效，无需每次手动运行\n\n🧹 removeMultiInstance 兜底 — 处理原版 aliasAttr(remove=True) 无法解决的重复别名\n\n🖥️ 双模式运行 — Maya Script Editor 一键执行 或 mayapy 命令行批量处理\n\n```python\n# 一键修复\nexec(open(r'D:\\zcy\\ai_ty\\fix_maya_aov_duplicate_alias.py', encoding='utf-8').read())\n\n# 命令行模式\nmayapy.exe fix_maya_aov_duplicate_alias.py scene.ma\n\n# 永久生效（userSetup.py）\nimport fix_maya_aov_duplicate_alias\nfix_maya_aov_duplicate_alias.patch_mtoa()\n\n# crypto_asset 专项\nexec(open(r'D:\\zcy\\ai_ty\\fix_aov_crypto_asset.py', encoding='utf-8').read())\n```", "methods": [{"name": "一键修复", "pros": ["一条命令，复制即用"], "cons": ["需在 Script Editor 中运行"], "color": "#b8a99a", "code": "exec(open(r'D:\\zcy\\ai_ty\\fix_maya_aov_duplicate_alias.py', encoding='utf-8').read())"}, {"name": "命令行模式", "pros": ["无需打开 Maya UI"], "cons": ["需要命令行"], "color": "#9cadb0", "code": "mayapy.exe fix_maya_aov_duplicate_alias.py scene.ma"}, {"name": "永久生效（userSetup.py）", "pros": ["可按需分步调用"], "cons": ["—"], "color": "#c0a8b0", "code": "import fix_maya_aov_duplicate_alias\nfix_maya_aov_duplicate_alias.patch_mtoa()"}, {"name": "crypto_asset 专项", "pros": ["一条命令，复制即用"], "cons": ["需在 Script Editor 中运行"], "color": "#a0b0a0", "code": "exec(open(r'D:\\zcy\\ai_ty\\fix_aov_crypto_asset.py', encoding='utf-8').read())"}]}, {"software": "Maya", "subtag": "通用", "category": "成功", "name": "bs-diagnostic", "description": "BS诊断 — Maya ABC 流程 blendShape 对照工具，脚本输出 JSON → 仪表盘生成清单导出 PDF", "usage": [], "files": [], "package": "BS诊断工具.zip", "is_tracking": false, "errorPatterns": [], "embeddedScripts": [], "body": "Maya ABC 流程 blendShape 诊断工具 — 对比 mod 模型和 ABC 缓存，输出 JSON → 仪表盘生成清单 → 导出 PDF 反馈给其他环节\n\n🔬 自动诊断 — 输入 mod 组名和 ABC 组名，逐一对比所有 mesh 的配对情况\n\n📏 顶点数校验 — 检测配对 mesh 顶点数是否一致，区分可连接（绿标）和不匹配（红标）并显示差值\n\n🏗️ 结构检查 — 验证 transform freeze 状态、层次结构、父子顺序是否正确\n\n📋 JSON 输出 — 诊断结果粘贴到仪表盘生成清单，导出 PDF 直接发给绑定/模型环节", "methods": []}, {"software": "Maya", "subtag": "通用", "category": "成功", "name": "light-copy-and-rename", "description": "Maya 灯光工具 — 复制灯光组自动递增命名、查找修复重复命名灯光", "usage": ["# 复制灯光组（自动递增命名）\nexec(open(r'D:\\zcy\\ai_ty\\copy_light_group.py', encoding='utf-8').read())\n\n# 查找并修复重复灯光（支持仅检查/预览/修复三种模式）\nexec(open(r'D:\\zcy\\ai_ty\\fix_duplicate_light_names.py', encoding='utf-8').read())"], "files": [], "package": "maya_light_tools.zip", "is_tracking": false, "errorPatterns": [], "embeddedScripts": [], "body": "Maya 灯光管理工具 — 复制灯光组自动递增命名 + 查找并修复场景中重复的灯光名称\n\n📋 复制灯光组 — 选中灯光组一键复制，所有子灯光自动递增命名，保持原层级结构\n\n🔎 查找重复灯光 — 全场景扫描重名灯光，支持仅检查 / 预览修改 / 直接修复三种模式\n\n💡 广泛兼容 — Maya 原生灯光（spotLight, areaLight 等）+ Arnold（aiAreaLight, aiSkyDomeLight 等）+ Redshift\n\n🚫 安全跳过参考节点 — 自动忽略 reference 中的灯光，避免修改参考文件\n\n```python\n# 复制灯光组（自动递增命名）\nexec(open(r'D:\\zcy\\ai_ty\\copy_light_group.py', encoding='utf-8').read())\n\n# 查找并修复重复灯光（支持仅检查/预览/修复三种模式）\nexec(open(r'D:\\zcy\\ai_ty\\fix_duplicate_light_names.py', encoding='utf-8').read())\n```", "methods": [{"name": "复制灯光组（自动递增命名）", "pros": ["一条命令，复制即用"], "cons": ["需在 Script Editor 中运行"], "color": "#b8a99a", "code": "exec(open(r'D:\\zcy\\ai_ty\\copy_light_group.py', encoding='utf-8').read())"}, {"name": "查找并修复重复灯光（支持仅检查/预览/修复三种模式）", "pros": ["一条命令，复制即用"], "cons": ["需在 Script Editor 中运行"], "color": "#9cadb0", "code": "exec(open(r'D:\\zcy\\ai_ty\\fix_duplicate_light_names.py', encoding='utf-8').read())"}]}, {"software": "Maya", "subtag": "通用", "category": "成功", "name": "Render Queue 渲染队列", "description": "Maya 渲染队列管理器 — 独立桌面App，commandPort控制Maya批量渲染", "usage": [], "files": [], "package": "maya_render_queue.zip", "is_tracking": false, "errorPatterns": [], "embeddedScripts": [], "body": "独立桌面应用（PySide2），通过 commandPort 控制 Maya 自动批量渲染\n\n\n📋 多文件队列逐一渲染，支持 Arnold / Redshift\n\n🎯 自动读取场景设置（帧范围、分辨率、采样、输出路径）\n\n✅ 渲染层可选勾选，按顺序自动完成\n\n🚀 解压后双击「安装.bat」一键安装到桌面，或双击 run.bat 免安装直接启动", "methods": []}, {"software": "Maya", "subtag": "通用", "category": "成功", "name": "maya-startup-fix", "description": "Maya 启动报错一键修复 — 解锁defaultTextureList1 + colorSpace修复 + filePathEditor清理", "usage": ["# 一键修复\nexec(open(r'D:\\zcy\\ai_ty\\maya_startup_fix.py', encoding='utf-8').read())\n\n# 单独调用特定功能\nimport maya_startup_fix\nmaya_startup_fix.unlock_default_texture_list()\nmaya_startup_fix.fix_file_colorspaces()"], "files": [], "package": "maya_startup_fix.zip", "is_tracking": false, "errorPatterns": ["Connection not made: Destination is locked", "is not defined"], "embeddedScripts": [], "body": "Maya 启动报错一键修复 — 4项自动化检测与修复，消除每次启动的控制台报错和警告\n\n🔓 解锁 defaultTextureList1 — 修复 \"Connection not made: Destination is locked\" 连接错误\n\n🧹 清理 filePathEditor 注册表 — 消除重复文件路径 \"have been saved already\" 警告\n\n🎨 修复 file 节点 colorSpace — 解决 \"Color space 'sRGB' is not defined\" 报错\n\n🔍 扫描缺失路径 — 检测 XGen / 贴图丢失路径（仅报告不自动修复，避免误删）\n\n⚡ 灵活调用 — 支持一键全自动修复 或 import 后单独调用特定功能函数\n\n```python\n# 一键修复\nexec(open(r'D:\\zcy\\ai_ty\\maya_startup_fix.py', encoding='utf-8').read())\n\n# 单独调用特定功能\nimport maya_startup_fix\nmaya_startup_fix.unlock_default_texture_list()\nmaya_startup_fix.fix_file_colorspaces()\n```", "methods": [{"name": "一键修复", "pros": ["一条命令，复制即用"], "cons": ["需在 Script Editor 中运行"], "color": "#b8a99a", "code": "exec(open(r'D:\\zcy\\ai_ty\\maya_startup_fix.py', encoding='utf-8').read())"}, {"name": "单独调用特定功能", "pros": ["可按需分步调用"], "cons": ["—"], "color": "#9cadb0", "code": "import maya_startup_fix\nmaya_startup_fix.unlock_default_texture_list()\nmaya_startup_fix.fix_file_colorspaces()"}]}, {"software": "Maya", "subtag": "通用", "category": "成功", "name": "rig-cleaner-tools", "description": "Maya .ma 文件清理工具 — 扫描孤儿节点、删除冗余历史、清理 UI 数据提升视口性能", "usage": ["# 1. 分析（只读不写）\npython scan_orphans.py\n\n# 2. 逐轮清理（自动备份）\npython clean_rig_file.py\npython clean_round2.py\npython fix_hyperShade_refs.py"], "files": [], "package": "maya_rig_cleaner.zip", "is_tracking": false, "errorPatterns": [], "embeddedScripts": [], "body": "4个独立 Python 脚本，清理 Maya .ma 绑定文件中累积的垃圾数据，显著提升文件加载速度和视口 FPS\n\n🔍 扫描孤儿节点 — 全文件扫描，按类型统计 groupId、animCurveUU、network 等无引用节点\n\n🧹 清理冗余 UI 数据 — 移除 nodeGraphEditorInfo、hyperShadePrimary 等编辑历史记录\n\n✂️ 删除遗留构造历史 — polyBridgeEdge、polyExtrudeFace 等不再需要的操作节点\n\n💾 自动备份原文件 — 每次修改前自动创建 .bak 备份，安全可逆\n\n🐍 不依赖 Maya — 纯 Python 处理 .ma 文本文件，命令行直接运行\n\n```bash\n# 1. 分析（只读不写）\npython scan_orphans.py\n\n# 2. 逐轮清理（自动备份）\npython clean_rig_file.py\npython clean_round2.py\npython fix_hyperShade_refs.py\n```", "methods": [{"name": "1. 分析（只读不写）", "pros": ["直接可用"], "cons": ["—"], "color": "#b8a99a", "code": "python scan_orphans.py"}, {"name": "2. 逐轮清理（自动备份）", "pros": ["直接可用"], "cons": ["—"], "color": "#9cadb0", "code": "python clean_rig_file.py\npython clean_round2.py\npython fix_hyperShade_refs.py"}]}, {"name": "Cryptomatte matteList 格式转换", "description": "新旧 Cryptomatte 节点 matteList 格式互转工具", "tracking_detail": {"#": "1", "名称": "Cryptomatte matteList 格式转换", "功能简述": "新旧 Cryptomatte 节点 matteList 格式互转工具", "当前进度": "仅完成了格式差异分析文档", "待完善": "需要写成自动化脚本/工具", "相关文件": "参考文档（待迁移）", "最后更新": "2026-07"}, "software": "Nuke", "subtag": "通用", "category": "暂时没有", "is_tracking": true, "methods": []}, {"software": "系统", "subtag": "通用", "category": "成功", "name": "portable-toolbox", "description": "借用电脑工具箱 — 一键解绑 + 新电脑一键部署（install.bat / uninstall.bat）", "usage": [], "files": [], "package": "AI_TY_便携工具箱.zip", "is_tracking": false, "errorPatterns": [], "embeddedScripts": [], "body": "借用电脑便携工具箱 — 所有工具集中在 d:\\zcy\\ai_ty\\，一键解绑清除痕迹 + 新电脑一键部署\n\n📦 完整打包仅 12MB — 包含所有脚本、配置和依赖，U盘拷贝即可带走\n\n🔌 一键解绑 (uninstall.bat) — 清除本机所有个人痕迹和注册信息\n\n🚀 一键部署 (install.bat) — 新电脑放任意位置运行，即插即用\n\n💼 便携设计 — 无需安装、无需管理员权限，目录自包含", "methods": []}, {"software": "素材", "subtag": "材质球", "category": "素材", "name": "示例_金属材质", "description": "这是一个示例金属材质，用于演示素材库功能", "thumbnail": "assets/材质球/示例_金属材质.png", "download": "assets/材质球/示例_金属材质.zip", "downloads": ["assets/材质球/示例_金属材质.zip"], "files": ["metal_preset.ma", "缩略图.png"], "size": 377, "date": "2026-09-21", "is_asset": true}]
 </script>
 
 <script>
 window.__EMBED_LOG__=[{"ver": "BS诊断 v3.0", "text": "添加层级以及顺序判断", "time": "2026-08-13"}, {"ver": "Render Queue", "text": "渲染队列app可在电脑上一键安装", "time": "2026-08-13"}];
+window.__MODE__="gh";window.__DL_DISABLED__=false;
 var DATA=JSON.parse(document.getElementById('data-store').textContent.trim());
 var fSw='all',fSub=null,modalItem=null;
 
@@ -249,7 +272,21 @@ function card(d){
         ah+='<span class="sw">素材</span> <span style="color:var(--dim);font-size:11px">'+he(d.subtag)+'</span>';
         ah+='<h3>'+he(d.name)+'</h3>';
         ah+='<div class="desc">'+he(d.description||'')+'</div>';
-        ah+='<div class="foot"><a class="pkg-l" style="margin-left:0" href="'+he(d.download)+'" download>📥 下载</a></div>';
+        var dls=d.downloads&&d.downloads.length?d.downloads:(d.download?[d.download]:[]);
+        if(d.download_disabled||window.__DL_DISABLED__){
+            ah+='<div class="foot"><span class="pkg-l" style="margin-left:0;background:var(--border);color:var(--dim);cursor:not-allowed" title="素材下载请访问 GitHub 站">📥 下载不可用</span></div>';
+        }else if(dls.length===1){
+            ah+='<div class="foot"><a class="pkg-l" style="margin-left:0" href="'+he(dls[0])+'" download>📥 下载</a></div>';
+        }else if(dls.length>1){
+            var lid='dl_'+Math.random().toString(36).slice(2);
+            ah+='<div class="foot"><button class="pkg-l" style="margin-left:0;border:none;cursor:pointer" onclick="event.stopPropagation();var p=document.getElementById(\''+lid+'\');p.style.display=p.style.display===\'none\'?\'\':\'none\'">📥 下载 ('+dls.length+')</button></div>';
+            ah+='<div id="'+lid+'" style="display:none;margin-top:6px">';
+            dls.forEach(function(u){var fn=decodeURIComponent(u.split('/').pop());ah+='<div style="font-size:11px;padding:2px 0"><a href="'+he(u)+'" download style="color:var(--accent);text-decoration:none">⬇ '+he(fn)+'</a></div>';});
+            ah+='</div>';
+        }
+        if(window._isAdmin){
+            ah+='<div class="foot" style="margin-top:8px"><button style="background:none;border:1px solid var(--border);border-radius:4px;color:var(--dim);cursor:pointer;font-size:11px;padding:3px 8px" onclick="event.stopPropagation();delAsset(\''+he(d.name)+'\',\''+he(d.subtag)+'\',event)">🗑 删除素材</button></div>';
+        }
         ah+='</div>';
         return ah;
     }
@@ -695,7 +732,146 @@ function addLog(ver,text){
         });
     }
 }
+// ── 素材库：网页上传 / 删除 / 动态加载 ──
+var ASSET_CATS=['材质球','贴图纹理','HDRI','模型道具','参考图'];
+var _assetState={uploading:false};
+if(!window._adminPwd)window._adminPwd='aty2026';
+window._isAdmin=window._isAdmin||localStorage.getItem('aty_admin')==='1';
+function ghToken(){
+    var t=localStorage.getItem('aty_ghToken');
+    if(!t){t=prompt('首次上传需要 GitHub Token（仅保存在本机浏览器）：');if(t)localStorage.setItem('aty_ghToken',t);}
+    return t||'';
+}
+function encPath(p){return p.split('/').map(encodeURIComponent).join('/');}
+function ghAPI(method,path,body){
+    return fetch('https://api.github.com/repos/Tystarry/aty-tools/contents/'+encPath(path),{
+        method:method,
+        headers:{Authorization:'Bearer '+ghToken(),Accept:'application/vnd.github+json','X-GitHub-Api-Version':'2022-11-28','Content-Type':'application/json'},
+        body:body?JSON.stringify(body):undefined
+    }).then(function(r){return r.json().then(function(j){if(!r.ok)throw Error(j.message||('HTTP '+r.status));return j;});});
+}
+function fetchIndex(){
+    return fetch('https://raw.githubusercontent.com/Tystarry/aty-tools/main/assets_index.json?t='+Date.now(),{cache:'no-store'})
+    .then(function(r){if(!r.ok)throw Error('HTTP '+r.status);return r.json();});
+}
+function refreshAssets(cb){
+    var done=cb||function(){};
+    var url=window.__MODE__==='vercel'?'/api/assets':'./assets_index.json';
+    fetch(url+'?t='+Date.now(),{cache:'no-store'}).then(function(r){if(!r.ok)throw Error();return r.json();}).then(function(j){
+        if(j&&j.assets&&j.assets.length){
+            var merged=DATA.filter(function(d){return !d.is_asset;});
+            j.assets.forEach(function(a){
+                a.is_asset=true;a.software='素材';a.subtag=a.category;a.category='素材';
+                a.downloads=a.downloads||(a.download?[a.download]:[]);
+                merged.push(a);
+            });
+            DATA=merged;
+            render();
+        }
+        done();
+    }).catch(function(){done();});
+}
+function openUpload(){
+    if(!window._isAdmin){
+        var p=prompt('请输入管理员密码：');
+        if(p!==window._adminPwd){if(p!==null)alert('密码错误');return;}
+        window._isAdmin=true;localStorage.setItem('aty_admin','1');
+        var ab=document.getElementById('admin-btn');if(ab)ab.textContent='🔓';
+    }
+    if(!ghToken())return;
+    var sel=document.getElementById('up-cat');
+    sel.innerHTML='';
+    ASSET_CATS.forEach(function(c){var o=document.createElement('option');o.value=c;o.textContent=c;if(fSub===c)o.selected=true;sel.appendChild(o);});
+    document.getElementById('up-status').textContent='';
+    document.getElementById('up-log').innerHTML='';
+    document.getElementById('upload-modal').classList.add('show');
+}
+function closeUpload(){document.getElementById('upload-modal').classList.remove('show');}
+function upLog(t,c){var el=document.getElementById('up-log');el.innerHTML+='<div style="color:'+(c||'')+'">'+he(t)+'</div>';el.scrollTop=el.scrollHeight;}
+function readB64(file){return new Promise(function(res,rej){var r=new FileReader();r.onload=function(){res(String(r.result).split(',')[1]);};r.onerror=rej;r.readAsDataURL(file);});}
+function b64u(s){return btoa(unescape(encodeURIComponent(s)));}
+async function doUpload(){
+    if(_assetState.uploading)return;
+    var name=(document.getElementById('up-name').value||'').trim();
+    var cat=document.getElementById('up-cat').value;
+    var desc=(document.getElementById('up-desc').value||'').trim();
+    if(!name){alert('请填写素材名');return;}
+    if(!window._isAdmin){var p=prompt('请输入管理员密码：');if(p!==window._adminPwd){if(p!==null)alert('密码错误');return;}window._isAdmin=true;localStorage.setItem('aty_admin','1');}
+    if(!ghToken())return;
+    var files=[].slice.call(document.getElementById('up-files').files||[]);
+    var thumb=document.getElementById('up-thumb').files[0];
+    if(!files.length&&!thumb){alert('请选择素材文件或缩略图');return;}
+    var total=files.concat(thumb?[thumb]:[]);
+    var big=total.filter(function(f){return f.size>90*1024*1024;});
+    if(big.length){alert('文件 '+big.map(function(f){return f.name;}).join(', ')+' 超过 90MB（GitHub 单文件上限 100MB）。\n请用本地素材库方式：放到 D:/zcy/ai_ty/素材库/ 对应分类下，然后说「更新素材库」');return;}
+    _assetState.uploading=true;
+    document.getElementById('up-status').textContent='上传中...';
+    var base='assets/'+cat+'/'+name;
+    var entry={category:cat,name:name,description:desc,thumbnail:'',downloads:[],files:[],size:0,date:new Date().toISOString().slice(0,10)};
+    try{
+        for(var i=0;i<total.length;i++){
+            var f=total[i];
+            upLog('⬆ '+f.name+' ('+(f.size/1024/1024).toFixed(1)+'MB)');
+            var content=await readB64(f);
+            var path=base+'/'+f.name;
+            var sha='';
+            try{var ex=await ghAPI('GET',path);sha=ex.sha||'';}catch(e){}
+            var body={message:'Upload asset '+name,content:content};if(sha)body.sha=sha;
+            await ghAPI('PUT',path,body);
+            entry.size+=f.size;entry.files.push(f.name);
+            if(f===thumb)entry.thumbnail='assets/'+cat+'/'+name+'/'+f.name;
+            else entry.downloads.push('assets/'+cat+'/'+name+'/'+f.name);
+            upLog('✅ '+f.name+' 已上传');
+        }
+        upLog('✏ 更新素材索引...');
+        var idx=null;
+        try{idx=await fetchIndex();}catch(e){idx={assets:[]};}
+        if(!idx||!idx.assets)idx={assets:[]};
+        idx.assets=idx.assets.filter(function(a){return !(a.category===cat&&a.name===name);});
+        idx.assets.unshift(entry);
+        idx.updated=new Date().toISOString();
+        var sha2='';
+        try{var ex2=await ghAPI('GET','assets_index.json');sha2=ex2.sha||'';}catch(e){}
+        await ghAPI('PUT','assets_index.json',{message:'Update assets index',content:b64u(JSON.stringify(idx)),sha:sha2});
+        upLog('✅ 索引已更新');
+        document.getElementById('up-status').textContent='上传完成！新素材约 1-2 分钟后在网站可见';
+        document.getElementById('up-name').value='';document.getElementById('up-desc').value='';
+        document.getElementById('up-files').value='';document.getElementById('up-thumb').value='';
+        var e2=JSON.parse(JSON.stringify(entry));
+        e2.is_asset=true;e2.software='素材';e2.subtag=e2.category;e2.category='素材';
+        DATA=DATA.filter(function(d){return !(d.is_asset&&d.name===name&&d.subtag===cat);}).concat([e2]);
+        render();
+        refreshAssets();
+    }catch(e){
+        upLog('❌ 失败: '+(e&&e.message||e),'#e05555');
+        document.getElementById('up-status').textContent='上传失败，见下方日志';
+    }
+    _assetState.uploading=false;
+}
+async function delAsset(name,cat,ev){
+    if(ev)ev.stopPropagation();
+    if(!window._isAdmin){alert('需要管理员权限');return;}
+    if(!confirm('确定删除素材「'+name+'」及其全部文件？'))return;
+    try{
+        var idx=await fetchIndex();
+        var entry=(idx.assets||[]).filter(function(a){return a.category===cat&&a.name===name;})[0];
+        if(!entry){alert('素材不在索引中');return;}
+        var paths=(entry.downloads||[]).concat(entry.thumbnail?[entry.thumbnail]:[]);
+        for(var i=0;i<paths.length;i++){
+            try{var ex=await ghAPI('GET',paths[i]);await ghAPI('DELETE',paths[i],{message:'Delete asset '+name,sha:ex.sha});}catch(e){}
+        }
+        idx.assets=idx.assets.filter(function(a){return !(a.category===cat&&a.name===name);});
+        idx.updated=new Date().toISOString();
+        var sha='';
+        try{var ex2=await ghAPI('GET','assets_index.json');sha=ex2.sha||'';}catch(e){}
+        await ghAPI('PUT','assets_index.json',{message:'Update assets index',content:b64u(JSON.stringify(idx)),sha:sha});
+        DATA=DATA.filter(function(d){return !(d.is_asset&&d.name===name&&d.subtag===cat);});
+        render();refreshAssets();
+        alert('已删除');
+    }catch(e){alert('删除失败: '+(e&&e.message||e));}
+}
 showLogLatest();
+refreshAssets();
 render();
 </script>
 
