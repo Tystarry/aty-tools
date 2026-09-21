@@ -1298,12 +1298,12 @@ function openUpload(cat){
             e.preventDefault();
             zone.style.borderColor='var(--border)';
             var fs=[].slice.call(e.dataTransfer.files||[]);
-            if(multi)fs=fs.filter(function(f){return f.type.indexOf('image/')===0;});
+            if(!multi)fs=fs.filter(function(f){return f.type.indexOf('image/')===0;}); // 只有缩略图区限定图片
             if(!fs.length)return;
             try{
                 var dt=new DataTransfer();
                 fs.forEach(function(f){dt.items.add(f);});
-                input.files=multi?dt.files:dt.files;
+                input.files=dt.files;
                 if(multi)upFilesShow();else upThumbShow();
             }catch(err){alert('拖拽失败，请用点击选择');}
         };
@@ -1360,6 +1360,11 @@ function makeThumbFile(file,w,h){
 function upFilesShow(){
     var fs=[].slice.call(document.getElementById('up-files').files||[]);
     document.getElementById('upfiles-drop').innerHTML=fs.length?('✅ 已选 '+fs.length+' 个：'+fs.map(function(f){return he(f.name);}).join('、')):'📦 拖拽文件到这里，或点击选择（可多选）';
+    // 素材名自动识别：取第一个文件的文件名（去扩展名），仅当名字为空时填充
+    var nm=document.getElementById('up-name');
+    if(fs.length&&(!nm.value||!nm.value.trim())){
+        nm.value=fs[0].name.replace(/\.[^.]+$/,'');
+    }
     upThumbRowToggle();
 }
 // Ctrl+V 粘贴图片作为缩略图（上传弹窗打开且显示缩略图栏时）
@@ -1392,6 +1397,11 @@ async function doUpload(){
     var name=(document.getElementById('up-name').value||'').trim();
     var cat=document.getElementById('up-cat').value;
     var desc=(document.getElementById('up-desc').value||'').trim();
+    // 素材名自动识别：为空时取第一个文件名（去扩展名）
+    if(!name&&files.length){
+        name=files[0].name.replace(/\.[^.]+$/,'');
+        document.getElementById('up-name').value=name;
+    }
     if(!name){alert('请填写素材名');return;}
     if(!window._isAdmin){var p=prompt('请输入管理员密码：');if(p!==window._adminPwd){if(p!==null)alert('密码错误');return;}window._isAdmin=true;localStorage.setItem('aty_admin','1');}
     if(!ghToken())return;
