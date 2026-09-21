@@ -352,7 +352,12 @@ function copyPre(btn){
 function render(){
     var items=getData();
     var grp={};
+    var assetN=0,refN=0;
     items.forEach(function(d){
+        if(d.is_asset){
+            if(d.kind==='ref')refN++;else assetN++;
+            if(fSw==='all')return; // 全部视图下素材/参考图走模块入口，不进侧栏分类
+        }
         var k=d.software+' / '+d.subtag;
         if(!grp[k])grp[k]={sw:d.software,sub:d.subtag,n:0,ok:false,wip:false};
         grp[k].n++;
@@ -365,6 +370,10 @@ function render(){
         sh+='<a class="side-item'+on+'" data-sw="'+he(g.sw)+'" data-sub="'+he(g.sub)+'" onclick="setSub(this.dataset.sw,this.dataset.sub,this)">';
         sh+='<span class="dot '+(g.ok?'ok':'wip')+'"></span>'+he(k)+' ('+g.n+')</a>';
     });
+    if(fSw==='all'){
+        sh+='<a class="side-item" style="cursor:pointer" onclick="setFilt(\'素材\',null)"><span class="dot ok"></span>🎨 素材库 ('+assetN+')</a>';
+        sh+='<a class="side-item" style="cursor:pointer" onclick="setFilt(\'参考图\',null)"><span class="dot ok"></span>🖼 参考图 ('+refN+')</a>';
+    }
     document.getElementById('side').innerHTML=sh;
     if(fSw==='素材'){document.getElementById('main').innerHTML=assetHero();return;}
     if(fSw==='参考图'){document.getElementById('main').innerHTML=refHero();return;}
@@ -373,7 +382,10 @@ function render(){
         return;
     }
     var dg={};
-    items.forEach(function(d){var k=d.software+' / '+d.subtag;if(!dg[k])dg[k]=[];dg[k].push(d);});
+    items.forEach(function(d){
+        if(fSw==='all'&&d.is_asset)return; // 全部视图：素材不散开，由模块区展示
+        var k=d.software+' / '+d.subtag;if(!dg[k])dg[k]=[];dg[k].push(d);
+    });
     var h='';
     Object.keys(dg).sort().forEach(function(k){
         var its=dg[k];
@@ -381,6 +393,10 @@ function render(){
         its.forEach(function(d){h+=card(d);});
         h+='</div>';
     });
+    if(fSw==='all'){
+        if(assetN>0)h+=assetHero();
+        if(refN>0)h+=refHero();
+    }
     document.getElementById('main').innerHTML=h;
 }
 
