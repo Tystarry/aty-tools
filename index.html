@@ -271,10 +271,10 @@ body{font-family:"Segoe UI","Microsoft YaHei",sans-serif;background:var(--bg);co
 <button class="modal-close" onclick="closeUpload()">✕</button>
 <h2>⬆️ 上传素材</h2>
 <div style="display:grid;grid-template-columns:100px 1fr;gap:8px 12px;font-size:13px;align-items:center">
-  <span>分类</span><select id="up-cat" style="background:var(--inp);border:1px solid var(--border);border-radius:6px;color:var(--text);padding:6px"></select>
+  <span>分类</span><select id="up-cat" onchange="upThumbRowToggle()" style="background:var(--inp);border:1px solid var(--border);border-radius:6px;color:var(--text);padding:6px"></select>
   <span>素材名</span><input id="up-name" placeholder="必填，如 金属材质01" style="background:var(--inp);border:1px solid var(--border);border-radius:6px;color:var(--text);padding:6px;font-size:13px">
   <span>说明</span><textarea id="up-desc" rows="2" placeholder="卡片上的自定义说明" style="background:var(--inp);border:1px solid var(--border);border-radius:6px;color:var(--text);padding:6px;font-size:13px;resize:vertical;font-family:inherit"></textarea>
-  <span>缩略图</span><div>
+  <span id="up-thumb-label">缩略图</span><div id="up-thumb-row">
     <div id="upthumb-drop" style="border:2px dashed var(--border);border-radius:8px;padding:10px;text-align:center;color:var(--dim);font-size:12px;cursor:pointer;transition:border-color .15s" onclick="document.getElementById('up-thumb').click()">🖼 拖拽图片到这里 / 点击选择 / Ctrl+V 粘贴</div>
     <input id="up-thumb" type="file" accept="image/*" style="display:none" onchange="upThumbShow()">
   </div>
@@ -282,7 +282,7 @@ body{font-family:"Segoe UI","Microsoft YaHei",sans-serif;background:var(--bg);co
     <div id="upfiles-drop" style="border:2px dashed var(--border);border-radius:8px;padding:10px;text-align:center;color:var(--dim);font-size:12px;cursor:pointer;transition:border-color .15s" onclick="document.getElementById('up-files').click()">📦 拖拽文件到这里，或点击选择（可多选）</div>
     <input id="up-files" type="file" multiple style="display:none" onchange="upFilesShow()">
   </div>
-  <span></span><div style="font-size:11px;color:var(--dim)">可多选文件；单个文件 ≤ 90MB（GitHub 上限 100MB）。超大文件（HDRI 等）建议本地素材库方式</div>
+  <span></span><div id="up-hint" style="font-size:11px;color:var(--dim)">可多选文件；单个文件 ≤ 90MB（GitHub 上限 100MB）。超大文件（HDRI 等）建议本地素材库方式</div>
 </div>
 <div style="margin-top:12px;display:flex;gap:10px;align-items:center">
   <button class="card-btn" style="background:var(--accent);color:#1a1d23" onclick="doUpload()">🚀 上传</button>
@@ -871,6 +871,7 @@ function addLog(ver,text){
 }
 // ── 素材库：主页入口模块 + 独立浏览界面 + 上传/删除/动态加载 ──
 var ASSET_CATS=['材质球','纹理','合成素材','HDRI','模型'];
+var AUTO_THUMB_CATS=['纹理','合成素材','HDRI']; // 这些分类缩略图自动生成，不上传
 // 主页显示 5 个分类模块（与参考图一致），点模块进独立界面
 var ASSET_ICONS={'材质球':'🔮','纹理':'🪢','合成素材':'🧩','HDRI':'🌅','模型':'🗿'};
 function assetHero(){
@@ -1282,6 +1283,7 @@ function openUpload(cat){
     var sel=document.getElementById('up-cat');
     sel.innerHTML='';
     ASSET_CATS.forEach(function(c){var o=document.createElement('option');o.value=c;o.textContent=c;if(c===preset)o.selected=true;sel.appendChild(o);});
+    upThumbRowToggle();
     document.getElementById('up-status').textContent='';
     document.getElementById('up-log').innerHTML='';
     // 拖拽上传：缩略图 + 素材文件
@@ -1312,14 +1314,43 @@ function upThumbShow(){
     var f=document.getElementById('up-thumb').files[0];
     document.getElementById('upthumb-drop').innerHTML=f?('✅ 缩略图：'+he(f.name)):'🖼 拖拽图片到这里 / 点击选择 / Ctrl+V 粘贴';
 }
+function upThumbRowToggle(){
+    var cat=document.getElementById('up-cat').value;
+    var autoT=AUTO_THUMB_CATS.indexOf(cat)>=0;
+    document.getElementById('up-thumb-label').style.display=autoT?'none':'';
+    document.getElementById('up-thumb-row').style.display=autoT?'none':'';
+    var hint=document.getElementById('up-hint');
+    if(hint)hint.innerHTML=autoT?'缩略图自动生成（图片文件即时生成；EXR/HDR 稍后自动补）；可多选文件；单个文件 ≤ 90MB（GitHub 上限 100MB）。超大文件建议本地素材库方式':'可多选文件；单个文件 ≤ 90MB（GitHub 上限 100MB）。超大文件（HDRI 等）建议本地素材库方式';
+}
+function makeThumbFile(file,w,h){
+    return new Promise(function(res,rej){
+        var img=new Image();
+        var url=URL.createObjectURL(file);
+        img.onload=function(){
+            try{
+                var c=document.createElement('canvas');
+                c.width=w;c.height=h;
+                var ctx=c.getContext('2d');
+                var scale=Math.max(w/img.width,h/img.height); // cover 裁切
+                var sw=w/scale,sh=h/scale,sx=(img.width-sw)/2,sy=(img.height-sh)/2;
+                ctx.drawImage(img,sx,sy,sw,sh,0,0,w,h);
+                URL.revokeObjectURL(url);
+                c.toBlob(function(b){if(b)res(b);else rej(Error('thumb fail'));},'image/png');
+            }catch(e){URL.revokeObjectURL(url);rej(e);}
+        };
+        img.onerror=function(){URL.revokeObjectURL(url);rej(Error('not image'));};
+        img.src=url;
+    });
+}
 function upFilesShow(){
     var fs=[].slice.call(document.getElementById('up-files').files||[]);
     document.getElementById('upfiles-drop').innerHTML=fs.length?('✅ 已选 '+fs.length+' 个：'+fs.map(function(f){return he(f.name);}).join('、')):'📦 拖拽文件到这里，或点击选择（可多选）';
 }
-// Ctrl+V 粘贴图片作为缩略图（上传弹窗打开时）
+// Ctrl+V 粘贴图片作为缩略图（上传弹窗打开且显示缩略图栏时）
 document.addEventListener('paste',function(e){
     var um=document.getElementById('upload-modal');
     if(!um.classList.contains('show'))return;
+    if(document.getElementById('up-thumb-row').style.display==='none')return;
     var items=(e.clipboardData&&e.clipboardData.items)||[];
     for(var i=0;i<items.length;i++){
         if(items[i].type.indexOf('image/')===0){
@@ -1351,6 +1382,23 @@ async function doUpload(){
     var files=[].slice.call(document.getElementById('up-files').files||[]);
     var thumb=document.getElementById('up-thumb').files[0];
     if(!files.length&&!thumb){alert('请选择素材文件或缩略图');return;}
+    // 自动缩略图分类：纹理/合成素材/HDRI 不上传缩略图，用第一个图片文件即时生成
+    if(AUTO_THUMB_CATS.indexOf(cat)>=0){
+        thumb=null;
+        for(var tfi=0;tfi<files.length;tfi++){
+            if(files[tfi].type.indexOf('image/')===0){
+                try{
+                    upLog('🖼 自动生成缩略图...');
+                    var tw=cat==='HDRI'?512:256,th=cat==='HDRI'?256:256;
+                    var blob=await makeThumbFile(files[tfi],tw,th);
+                    thumb=new File([blob],'缩略图.png',{type:'image/png'});
+                    upLog('✅ 缩略图已自动生成');
+                }catch(e){}
+                break;
+            }
+        }
+        if(!thumb)upLog('ℹ 该格式无法在浏览器生成缩略图，稍后自动补生成');
+    }
     var total=files.concat(thumb?[thumb]:[]);
     var big=total.filter(function(f){return f.size>90*1024*1024;});
     if(big.length){alert('文件 '+big.map(function(f){return f.name;}).join(', ')+' 超过 90MB（GitHub 单文件上限 100MB）。\n请用本地素材库方式：放到 D:/zcy/ai_ty/素材库/ 对应分类下，然后说「更新素材库」');return;}
