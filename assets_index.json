@@ -1,5 +1,5 @@
 {
-  "updated": "2026-09-21T20:31:09.718952",
+  "updated": "2026-09-21T20:35:32.769512",
   "assets": [
     {
       "category": "HDRI",
@@ -96,10 +96,9 @@
       ],
       "files": [
         "carb_01_L.hdr",
-        "carb_01_L.tx",
         "缩略图.png"
       ],
-      "size": 12508878,
+      "size": 4926391,
       "date": "2026-09-21"
     },
     {
@@ -154,10 +153,9 @@
       ],
       "files": [
         "Glazed Patio.exr",
-        "Glazed Patio.tx",
         "缩略图.png"
       ],
-      "size": 18135541,
+      "size": 7625639,
       "date": "2026-09-21"
     },
     {
@@ -166,13 +164,12 @@
       "description": "HDRI素材「HighwayOverpass」\n文件：\n  - HighwayOverpass.hdr: 18.6 MB\n  - HighwayOverpass.tx: 55.0 MB\n来源: F:/hdr\n导入日期: 2026-09-21",
       "thumbnail": "",
       "downloads": [
-        "assets/HDRI/HighwayOverpass.zip"
+        "assets/HDRI/HighwayOverpass/HighwayOverpass.hdr"
       ],
       "files": [
-        "HighwayOverpass.hdr",
-        "HighwayOverpass.tx"
+        "HighwayOverpass.hdr"
       ],
-      "size": 73239726,
+      "size": 19470939,
       "date": "2026-09-21"
     },
     {
@@ -199,10 +196,9 @@
       ],
       "files": [
         "kloppenheim_02_puresky_4k.exr",
-        "kloppenheim_02_puresky_4k_1.tx",
         "缩略图.png"
       ],
-      "size": 98114904,
+      "size": 73140347,
       "date": "2026-09-21"
     },
     {
@@ -508,13 +504,12 @@
       "description": "HDRI素材「the_sky_is_on_fire_4k」\n文件：\n  - the_sky_is_on_fire_4k.exr: 17.3 MB\n  - the_sky_is_on_fire_4k_Utility - Linear - Rec.709_ACEScg.exr.tx: 35.1 MB\n来源: F:/hdr\n导入日期: 2026-09-21",
       "thumbnail": "",
       "downloads": [
-        "assets/HDRI/the_sky_is_on_fire_4k.zip"
+        "assets/HDRI/the_sky_is_on_fire_4k/the_sky_is_on_fire_4k.exr"
       ],
       "files": [
-        "the_sky_is_on_fire_4k.exr",
-        "the_sky_is_on_fire_4k_Utility - Linear - Rec.709_ACEScg.exr.tx"
+        "the_sky_is_on_fire_4k.exr"
       ],
-      "size": 53779921,
+      "size": 18139397,
       "date": "2026-09-21"
     },
     {
