@@ -1,1 +1,551 @@
-{"updated": "2026-09-21T21:14:14.957276", "assets": [{"category": "HDRI", "name": "15_beerse_living", "description": "HDRI素材「15_beerse_living」\n文件：\n  - 15_beerse_living.hdr: 22.0 MB\n来源: F:/hdr\n导入日期: 2026-09-21", "thumbnail": "", "downloads": ["assets/HDRI/15_beerse_living/15_beerse_living.hdr"], "files": ["15_beerse_living.hdr"], "size": 23017526, "date": "2026-09-21"}, {"category": "HDRI", "name": "aces_p", "description": "HDRI素材「aces_p」\n文件：\n  - aces/p.exr: 39.0 MB\n来源: F:/hdr\n导入日期: 2026-09-21", "thumbnail": "", "downloads": ["assets/HDRI/aces_p/p.exr"], "files": ["p.exr"], "size": 40882195, "date": "2026-09-21"}, {"category": "HDRI", "name": "autumn_field_puresky_4k", "description": "HDRI素材「autumn_field_puresky_4k」\n文件：\n  - autumn_field_puresky_4k.exr: 67.2 MB\n来源: F:/hdr\n导入日期: 2026-09-21", "thumbnail": "", "downloads": ["assets/HDRI/autumn_field_puresky_4k/autumn_field_puresky_4k.exr"], "files": ["autumn_field_puresky_4k.exr"], "size": 70502897, "date": "2026-09-21"}, {"category": "HDRI", "name": "belfast_sunset_4k", "description": "HDRI素材「belfast_sunset_4k」\n文件：\n  - belfast_sunset_4k.exr: 79.2 MB\n来源: F:/hdr\n导入日期: 2026-09-21", "thumbnail": "assets/HDRI/belfast_sunset_4k.png", "downloads": ["assets/HDRI/belfast_sunset_4k/belfast_sunset_4k.exr"], "files": ["belfast_sunset_4k.exr"], "size": 83079911, "date": "2026-09-21"}, {"category": "HDRI", "name": "belfast_sunset_puresky_4k", "description": "HDRI素材「belfast_sunset_puresky_4k」\n文件：\n  - belfast_sunset_puresky_4k.exr: 69.7 MB\n来源: F:/hdr\n导入日期: 2026-09-21", "thumbnail": "", "downloads": ["assets/HDRI/belfast_sunset_puresky_4k/belfast_sunset_puresky_4k.exr"], "files": ["belfast_sunset_puresky_4k.exr"], "size": 73122844, "date": "2026-09-21"}, {"category": "HDRI", "name": "boma_4k", "description": "HDRI素材「boma_4k」\n文件：\n  - boma_4k.exr: 84.5 MB\n来源: F:/hdr\n导入日期: 2026-09-21", "thumbnail": "", "downloads": ["assets/HDRI/boma_4k/boma_4k.exr"], "files": ["boma_4k.exr"], "size": 88617467, "date": "2026-09-21"}, {"category": "HDRI", "name": "carb_01_L", "description": "HDRI素材「carb_01_L」\n文件：\n  - carb_01_L.hdr: 6.1 MB\n  - carb_01_L.tx: 7.3 MB\n来源: F:/hdr\n导入日期: 2026-09-21", "thumbnail": "assets/HDRI/carb_01_L.png", "downloads": ["assets/HDRI/carb_01_L/carb_01_L.hdr"], "files": ["carb_01_L.hdr"], "size": 6399886, "date": "2026-09-21"}, {"category": "HDRI", "name": "christmas_photo_studio_01_4k", "description": "HDRI素材「christmas_photo_studio_01_4k」\n文件：\n  - christmas_photo_studio_01_4k.exr: 21.8 MB\n来源: F:/hdr\n导入日期: 2026-09-21", "thumbnail": "", "downloads": ["assets/HDRI/christmas_photo_studio_01_4k/christmas_photo_studio_01_4k.exr"], "files": ["christmas_photo_studio_01_4k.exr"], "size": 22867085, "date": "2026-09-21"}, {"category": "HDRI", "name": "circus_arena_4k", "description": "HDRI素材「circus_arena_4k」\n文件：\n  - circus_arena_4k.exr: 20.7 MB\n来源: F:/hdr\n导入日期: 2026-09-21", "thumbnail": "", "downloads": ["assets/HDRI/circus_arena_4k/circus_arena_4k.exr"], "files": ["circus_arena_4k.exr"], "size": 21655424, "date": "2026-09-21"}, {"category": "HDRI", "name": "country_club_4k", "description": "HDRI素材「country_club_4k」\n文件：\n  - country_club_4k.exr: 22.5 MB\n来源: F:/hdr\n导入日期: 2026-09-21", "thumbnail": "", "downloads": ["assets/HDRI/country_club_4k/country_club_4k.exr"], "files": ["country_club_4k.exr"], "size": 23594252, "date": "2026-09-21"}, {"category": "HDRI", "name": "Glazed_Patio", "description": "HDRI素材「Glazed_Patio」\n文件：\n  - Glazed Patio.exr: 7.4 MB\n  - Glazed Patio.tx: 10.0 MB\n来源: F:/hdr\n导入日期: 2026-09-21", "thumbnail": "assets/HDRI/Glazed_Patio.png", "downloads": ["assets/HDRI/Glazed_Patio/Glazed Patio.exr"], "files": ["Glazed Patio.exr"], "size": 7742604, "date": "2026-09-21"}, {"category": "HDRI", "name": "HighwayOverpass", "description": "HDRI素材「HighwayOverpass」\n文件：\n  - HighwayOverpass.hdr: 18.6 MB\n  - HighwayOverpass.tx: 55.0 MB\n来源: F:/hdr\n导入日期: 2026-09-21", "thumbnail": "", "downloads": ["assets/HDRI/HighwayOverpass/HighwayOverpass.hdr"], "files": ["HighwayOverpass.hdr"], "size": 19470939, "date": "2026-09-21"}, {"category": "HDRI", "name": "industrial_sunset_02_puresky_4k", "description": "HDRI素材「industrial_sunset_02_puresky_4k」\n文件：\n  - industrial_sunset_02_puresky_4k.exr: 70.0 MB\n来源: F:/hdr\n导入日期: 2026-09-21", "thumbnail": "", "downloads": ["assets/HDRI/industrial_sunset_02_puresky_4k/industrial_sunset_02_puresky_4k.exr"], "files": ["industrial_sunset_02_puresky_4k.exr"], "size": 73448522, "date": "2026-09-21"}, {"category": "HDRI", "name": "kloppenheim_02_puresky_4k", "description": "HDRI素材「kloppenheim_02_puresky_4k」\n文件：\n  - kloppenheim_02_puresky_4k.exr: 74.4 MB\n  - kloppenheim_02_puresky_4k_1.tx: 23.9 MB\n来源: F:/hdr\n导入日期: 2026-09-21", "thumbnail": "assets/HDRI/kloppenheim_02_puresky_4k.png", "downloads": ["assets/HDRI/kloppenheim_02_puresky_4k/kloppenheim_02_puresky_4k.exr"], "files": ["kloppenheim_02_puresky_4k.exr"], "size": 78062264, "date": "2026-09-21"}, {"category": "HDRI", "name": "kloppenheim_06_puresky_4k", "description": "HDRI素材「kloppenheim_06_puresky_4k」\n文件：\n  - kloppenheim_06_puresky_4k.exr: 70.5 MB\n来源: F:/hdr\n导入日期: 2026-09-21", "thumbnail": "", "downloads": ["assets/HDRI/kloppenheim_06_puresky_4k/kloppenheim_06_puresky_4k.exr"], "files": ["kloppenheim_06_puresky_4k.exr"], "size": 73949801, "date": "2026-09-21"}, {"category": "HDRI", "name": "lenong_2_4k", "description": "HDRI素材「lenong_2_4k」\n文件：\n  - lenong_2_4k.exr: 20.0 MB\n来源: F:/hdr\n导入日期: 2026-09-21", "thumbnail": "", "downloads": ["assets/HDRI/lenong_2_4k/lenong_2_4k.exr"], "files": ["lenong_2_4k.exr"], "size": 20919476, "date": "2026-09-21"}, {"category": "HDRI", "name": "lonely_road_afternoon_puresky_4k", "description": "HDRI素材「lonely_road_afternoon_puresky_4k」\n文件：\n  - lonely_road_afternoon_puresky_4k.exr: 68.3 MB\n来源: F:/hdr\n导入日期: 2026-09-21", "thumbnail": "", "downloads": ["assets/HDRI/lonely_road_afternoon_puresky_4k/lonely_road_afternoon_puresky_4k.exr"], "files": ["lonely_road_afternoon_puresky_4k.exr"], "size": 71619284, "date": "2026-09-21"}, {"category": "HDRI", "name": "mirrored_hall_4k", "description": "HDRI素材「mirrored_hall_4k」\n文件：\n  - mirrored_hall_4k.exr: 84.3 MB\n来源: F:/hdr\n导入日期: 2026-09-21", "thumbnail": "", "downloads": ["assets/HDRI/mirrored_hall_4k/mirrored_hall_4k.exr"], "files": ["mirrored_hall_4k.exr"], "size": 88345703, "date": "2026-09-21"}, {"category": "HDRI", "name": "night", "description": "HDRI素材「night」\n文件：\n  - night.exr: 48.0 MB\n来源: F:/hdr\n导入日期: 2026-09-21", "thumbnail": "", "downloads": ["assets/HDRI/night/night.exr"], "files": ["night.exr"], "size": 50364871, "date": "2026-09-21"}, {"category": "HDRI", "name": "outdoor_chapel_4k", "description": "HDRI素材「outdoor_chapel_4k」\n文件：\n  - outdoor_chapel_4k.exr: 82.2 MB\n来源: F:/hdr\n导入日期: 2026-09-21", "thumbnail": "", "downloads": ["assets/HDRI/outdoor_chapel_4k/outdoor_chapel_4k.exr"], "files": ["outdoor_chapel_4k.exr"], "size": 86198453, "date": "2026-09-21"}, {"category": "HDRI", "name": "Panorama", "description": "HDRI素材「Panorama」\n文件：\n  - Panorama.exr: 7.1 MB\n来源: F:/hdr\n导入日期: 2026-09-21", "thumbnail": "assets/HDRI/Panorama.png", "downloads": ["assets/HDRI/Panorama/Panorama.exr"], "files": ["Panorama.exr"], "size": 7427695, "date": "2026-09-21"}, {"category": "HDRI", "name": "pillars_4k", "description": "HDRI素材「pillars_4k」\n文件：\n  - pillars_4k.exr: 25.9 MB\n来源: F:/hdr\n导入日期: 2026-09-21", "thumbnail": "", "downloads": ["assets/HDRI/pillars_4k/pillars_4k.exr"], "files": ["pillars_4k.exr"], "size": 27164093, "date": "2026-09-21"}, {"category": "HDRI", "name": "pretville_cinema_4k", "description": "HDRI素材「pretville_cinema_4k」\n文件：\n  - pretville_cinema_4k.exr: 82.5 MB\n来源: F:/hdr\n导入日期: 2026-09-21", "thumbnail": "", "downloads": ["assets/HDRI/pretville_cinema_4k/pretville_cinema_4k.exr"], "files": ["pretville_cinema_4k.exr"], "size": 86556813, "date": "2026-09-21"}, {"category": "HDRI", "name": "qwantani_dusk_1_puresky_4k", "description": "HDRI素材「qwantani_dusk_1_puresky_4k」\n文件：\n  - qwantani_dusk_1_puresky_4k.exr: 65.8 MB\n来源: F:/hdr\n导入日期: 2026-09-21", "thumbnail": "assets/HDRI/qwantani_dusk_1_puresky_4k.png", "downloads": ["assets/HDRI/qwantani_dusk_1_puresky_4k/qwantani_dusk_1_puresky_4k.exr"], "files": ["qwantani_dusk_1_puresky_4k.exr"], "size": 68964103, "date": "2026-09-21"}, {"category": "HDRI", "name": "qwantani_dusk_2_puresky_4k", "description": "HDRI素材「qwantani_dusk_2_puresky_4k」\n文件：\n  - qwantani_dusk_2_puresky_4k.exr: 67.4 MB\n来源: F:/hdr\n导入日期: 2026-09-21", "thumbnail": "", "downloads": ["assets/HDRI/qwantani_dusk_2_puresky_4k/qwantani_dusk_2_puresky_4k.exr"], "files": ["qwantani_dusk_2_puresky_4k.exr"], "size": 70695906, "date": "2026-09-21"}, {"category": "HDRI", "name": "rosendal_park_sunset_puresky_4k", "description": "HDRI素材「rosendal_park_sunset_puresky_4k」\n文件：\n  - rosendal_park_sunset_puresky_4k.exr: 71.5 MB\n来源: F:/hdr\n导入日期: 2026-09-21", "thumbnail": "", "downloads": ["assets/HDRI/rosendal_park_sunset_puresky_4k/rosendal_park_sunset_puresky_4k.exr"], "files": ["rosendal_park_sunset_puresky_4k.exr"], "size": 74998070, "date": "2026-09-21"}, {"category": "HDRI", "name": "school_hall_4k", "description": "HDRI素材「school_hall_4k」\n文件：\n  - school_hall_4k.exr: 82.0 MB\n来源: F:/hdr\n导入日期: 2026-09-21", "thumbnail": "", "downloads": ["assets/HDRI/school_hall_4k/school_hall_4k.exr"], "files": ["school_hall_4k.exr"], "size": 86021032, "date": "2026-09-21"}, {"category": "HDRI", "name": "signal_hill_sunrise_4k", "description": "HDRI素材「signal_hill_sunrise_4k」\n文件：\n  - signal_hill_sunrise_4k.exr: 18.4 MB\n来源: F:/hdr\n导入日期: 2026-09-21", "thumbnail": "", "downloads": ["assets/HDRI/signal_hill_sunrise_4k/signal_hill_sunrise_4k.exr"], "files": ["signal_hill_sunrise_4k.exr"], "size": 19297351, "date": "2026-09-21"}, {"category": "HDRI", "name": "studio_0.5_Utility_sRGB", "description": "HDRI素材「studio_0.5_Utility_sRGB」\n文件：\n  - studio_0.5 Utility - Linear - sRGB .exr: 48.0 MB\n来源: F:/hdr\n导入日期: 2026-09-21", "thumbnail": "", "downloads": ["assets/HDRI/studio_0.5_Utility_sRGB/studio_0.5 Utility - Linear - sRGB .exr"], "files": ["studio_0.5 Utility - Linear - sRGB .exr"], "size": 50364971, "date": "2026-09-21"}, {"category": "HDRI", "name": "Studio_06", "description": "HDRI素材「Studio_06」\n文件：\n  - Studio 06.exr: 0.0 MB\n来源: F:/hdr\n导入日期: 2026-09-21", "thumbnail": "", "downloads": ["assets/HDRI/Studio_06/Studio 06.exr"], "files": ["Studio 06.exr"], "size": 5057, "date": "2026-09-21"}, {"category": "HDRI", "name": "Studio_Black_Soft", "description": "HDRI素材「Studio_Black_Soft」\n文件：\n  - Studio Black Soft.exr: 0.0 MB\n来源: F:/hdr\n导入日期: 2026-09-21", "thumbnail": "", "downloads": ["assets/HDRI/Studio_Black_Soft/Studio Black Soft.exr"], "files": ["Studio Black Soft.exr"], "size": 39935, "date": "2026-09-21"}, {"category": "HDRI", "name": "studio_small_09_4k", "description": "HDRI素材「studio_small_09_4k」\n文件：\n  - studio_small_09_4k.exr: 17.7 MB\n来源: F:/hdr\n导入日期: 2026-09-21", "thumbnail": "assets/HDRI/studio_small_09_4k.png", "downloads": ["assets/HDRI/studio_small_09_4k/studio_small_09_4k.exr"], "files": ["studio_small_09_4k.exr"], "size": 18544389, "date": "2026-09-21"}, {"category": "HDRI", "name": "Studio_Tomoco", "description": "HDRI素材「Studio_Tomoco」\n文件：\n  - Studio Tomoco.exr: 0.1 MB\n来源: F:/hdr\n导入日期: 2026-09-21", "thumbnail": "", "downloads": ["assets/HDRI/Studio_Tomoco/Studio Tomoco.exr"], "files": ["Studio Tomoco.exr"], "size": 54047, "date": "2026-09-21"}, {"category": "HDRI", "name": "syferfontein_18d_clear_puresky_4k", "description": "HDRI素材「syferfontein_18d_clear_puresky_4k」\n文件：\n  - syferfontein_18d_clear_puresky_4k.exr: 69.8 MB\n来源: F:/hdr\n导入日期: 2026-09-21", "thumbnail": "", "downloads": ["assets/HDRI/syferfontein_18d_clear_puresky_4k/syferfontein_18d_clear_puresky_4k.exr"], "files": ["syferfontein_18d_clear_puresky_4k.exr"], "size": 73219038, "date": "2026-09-21"}, {"category": "HDRI", "name": "syferfontein_1d_clear_puresky_4k", "description": "HDRI素材「syferfontein_1d_clear_puresky_4k」\n文件：\n  - syferfontein_1d_clear_puresky_4k.exr: 53.0 MB\n来源: F:/hdr\n导入日期: 2026-09-21", "thumbnail": "", "downloads": ["assets/HDRI/syferfontein_1d_clear_puresky_4k/syferfontein_1d_clear_puresky_4k.exr"], "files": ["syferfontein_1d_clear_puresky_4k.exr"], "size": 55586135, "date": "2026-09-21"}, {"category": "HDRI", "name": "the_sky_is_on_fire_4k", "description": "HDRI素材「the_sky_is_on_fire_4k」\n文件：\n  - the_sky_is_on_fire_4k.exr: 17.3 MB\n  - the_sky_is_on_fire_4k_Utility - Linear - Rec.709_ACEScg.exr.tx: 35.1 MB\n来源: F:/hdr\n导入日期: 2026-09-21", "thumbnail": "", "downloads": ["assets/HDRI/the_sky_is_on_fire_4k/the_sky_is_on_fire_4k.exr"], "files": ["the_sky_is_on_fire_4k.exr"], "size": 18139397, "date": "2026-09-21"}, {"category": "HDRI", "name": "venice_sunset_4k", "description": "HDRI素材「venice_sunset_4k」\n文件：\n  - venice_sunset_4k.exr: 17.7 MB\n来源: F:/hdr\n导入日期: 2026-09-21", "thumbnail": "", "downloads": ["assets/HDRI/venice_sunset_4k/venice_sunset_4k.exr"], "files": ["venice_sunset_4k.exr"], "size": 18521671, "date": "2026-09-21"}, {"category": "HDRI", "name": "wasteland_clouds_puresky_4k", "description": "HDRI素材「wasteland_clouds_puresky_4k」\n文件：\n  - wasteland_clouds_puresky_4k.exr: 70.0 MB\n来源: F:/hdr\n导入日期: 2026-09-21", "thumbnail": "", "downloads": ["assets/HDRI/wasteland_clouds_puresky_4k/wasteland_clouds_puresky_4k.exr"], "files": ["wasteland_clouds_puresky_4k.exr"], "size": 73359437, "date": "2026-09-21"}, {"category": "材质球", "name": "示例_金属材质", "description": "这是一个示例金属材质，用于演示素材库功能", "thumbnail": "assets/材质球/示例_金属材质.png", "downloads": ["assets/材质球/示例_金属材质/metal_preset.ma"], "files": ["metal_preset.ma"], "size": 19, "date": "2026-09-21"}]}
+{
+  "updated": "2026-09-21T21:28:00.876763",
+  "assets": [
+    {
+      "category": "HDRI",
+      "name": "15_beerse_living",
+      "description": "HDRI素材「15_beerse_living」\n文件：\n  - 15_beerse_living.hdr: 22.0 MB\n来源: F:/hdr\n导入日期: 2026-09-21",
+      "thumbnail": "",
+      "downloads": [
+        "assets/HDRI/15_beerse_living/15_beerse_living.hdr"
+      ],
+      "files": [
+        "15_beerse_living.hdr"
+      ],
+      "size": 23017526,
+      "date": "2026-09-21"
+    },
+    {
+      "category": "HDRI",
+      "name": "aces_p",
+      "description": "HDRI素材「aces_p」\n文件：\n  - aces/p.exr: 39.0 MB\n来源: F:/hdr\n导入日期: 2026-09-21",
+      "thumbnail": "",
+      "downloads": [
+        "assets/HDRI/aces_p/p.exr"
+      ],
+      "files": [
+        "p.exr"
+      ],
+      "size": 40882195,
+      "date": "2026-09-21"
+    },
+    {
+      "category": "HDRI",
+      "name": "autumn_field_puresky_4k",
+      "description": "HDRI素材「autumn_field_puresky_4k」\n文件：\n  - autumn_field_puresky_4k.exr: 67.2 MB\n来源: F:/hdr\n导入日期: 2026-09-21",
+      "thumbnail": "",
+      "downloads": [
+        "assets/HDRI/autumn_field_puresky_4k/autumn_field_puresky_4k.exr"
+      ],
+      "files": [
+        "autumn_field_puresky_4k.exr"
+      ],
+      "size": 70502897,
+      "date": "2026-09-21"
+    },
+    {
+      "category": "HDRI",
+      "name": "belfast_sunset_4k",
+      "description": "HDRI素材「belfast_sunset_4k」\n文件：\n  - belfast_sunset_4k.exr: 79.2 MB\n来源: F:/hdr\n导入日期: 2026-09-21",
+      "thumbnail": "assets/HDRI/belfast_sunset_4k.png",
+      "downloads": [
+        "assets/HDRI/belfast_sunset_4k/belfast_sunset_4k.exr"
+      ],
+      "files": [
+        "belfast_sunset_4k.exr"
+      ],
+      "size": 83079911,
+      "date": "2026-09-21"
+    },
+    {
+      "category": "HDRI",
+      "name": "belfast_sunset_puresky_4k",
+      "description": "HDRI素材「belfast_sunset_puresky_4k」\n文件：\n  - belfast_sunset_puresky_4k.exr: 69.7 MB\n来源: F:/hdr\n导入日期: 2026-09-21",
+      "thumbnail": "",
+      "downloads": [
+        "assets/HDRI/belfast_sunset_puresky_4k/belfast_sunset_puresky_4k.exr"
+      ],
+      "files": [
+        "belfast_sunset_puresky_4k.exr"
+      ],
+      "size": 73122844,
+      "date": "2026-09-21"
+    },
+    {
+      "category": "HDRI",
+      "name": "boma_4k",
+      "description": "HDRI素材「boma_4k」\n文件：\n  - boma_4k.exr: 84.5 MB\n来源: F:/hdr\n导入日期: 2026-09-21",
+      "thumbnail": "",
+      "downloads": [
+        "assets/HDRI/boma_4k/boma_4k.exr"
+      ],
+      "files": [
+        "boma_4k.exr"
+      ],
+      "size": 88617467,
+      "date": "2026-09-21"
+    },
+    {
+      "category": "HDRI",
+      "name": "carb_01_L",
+      "description": "HDRI素材「carb_01_L」\n文件：\n  - carb_01_L.hdr: 6.1 MB\n  - carb_01_L.tx: 7.3 MB\n来源: F:/hdr\n导入日期: 2026-09-21",
+      "thumbnail": "assets/HDRI/carb_01_L.png",
+      "downloads": [
+        "assets/HDRI/carb_01_L/carb_01_L.hdr"
+      ],
+      "files": [
+        "carb_01_L.hdr"
+      ],
+      "size": 6399886,
+      "date": "2026-09-21"
+    },
+    {
+      "category": "HDRI",
+      "name": "christmas_photo_studio_01_4k",
+      "description": "HDRI素材「christmas_photo_studio_01_4k」\n文件：\n  - christmas_photo_studio_01_4k.exr: 21.8 MB\n来源: F:/hdr\n导入日期: 2026-09-21",
+      "thumbnail": "",
+      "downloads": [
+        "assets/HDRI/christmas_photo_studio_01_4k/christmas_photo_studio_01_4k.exr"
+      ],
+      "files": [
+        "christmas_photo_studio_01_4k.exr"
+      ],
+      "size": 22867085,
+      "date": "2026-09-21"
+    },
+    {
+      "category": "HDRI",
+      "name": "circus_arena_4k",
+      "description": "HDRI素材「circus_arena_4k」\n文件：\n  - circus_arena_4k.exr: 20.7 MB\n来源: F:/hdr\n导入日期: 2026-09-21",
+      "thumbnail": "",
+      "downloads": [
+        "assets/HDRI/circus_arena_4k/circus_arena_4k.exr"
+      ],
+      "files": [
+        "circus_arena_4k.exr"
+      ],
+      "size": 21655424,
+      "date": "2026-09-21"
+    },
+    {
+      "category": "HDRI",
+      "name": "country_club_4k",
+      "description": "HDRI素材「country_club_4k」\n文件：\n  - country_club_4k.exr: 22.5 MB\n来源: F:/hdr\n导入日期: 2026-09-21",
+      "thumbnail": "",
+      "downloads": [
+        "assets/HDRI/country_club_4k/country_club_4k.exr"
+      ],
+      "files": [
+        "country_club_4k.exr"
+      ],
+      "size": 23594252,
+      "date": "2026-09-21"
+    },
+    {
+      "category": "HDRI",
+      "name": "Glazed_Patio",
+      "description": "HDRI素材「Glazed_Patio」\n文件：\n  - Glazed Patio.exr: 7.4 MB\n  - Glazed Patio.tx: 10.0 MB\n来源: F:/hdr\n导入日期: 2026-09-21",
+      "thumbnail": "assets/HDRI/Glazed_Patio.png",
+      "downloads": [
+        "assets/HDRI/Glazed_Patio/Glazed Patio.exr"
+      ],
+      "files": [
+        "Glazed Patio.exr"
+      ],
+      "size": 7742604,
+      "date": "2026-09-21"
+    },
+    {
+      "category": "HDRI",
+      "name": "HighwayOverpass",
+      "description": "HDRI素材「HighwayOverpass」\n文件：\n  - HighwayOverpass.hdr: 18.6 MB\n  - HighwayOverpass.tx: 55.0 MB\n来源: F:/hdr\n导入日期: 2026-09-21",
+      "thumbnail": "",
+      "downloads": [
+        "assets/HDRI/HighwayOverpass/HighwayOverpass.hdr"
+      ],
+      "files": [
+        "HighwayOverpass.hdr"
+      ],
+      "size": 19470939,
+      "date": "2026-09-21"
+    },
+    {
+      "category": "HDRI",
+      "name": "industrial_sunset_02_puresky_4k",
+      "description": "HDRI素材「industrial_sunset_02_puresky_4k」\n文件：\n  - industrial_sunset_02_puresky_4k.exr: 70.0 MB\n来源: F:/hdr\n导入日期: 2026-09-21",
+      "thumbnail": "",
+      "downloads": [
+        "assets/HDRI/industrial_sunset_02_puresky_4k/industrial_sunset_02_puresky_4k.exr"
+      ],
+      "files": [
+        "industrial_sunset_02_puresky_4k.exr"
+      ],
+      "size": 73448522,
+      "date": "2026-09-21"
+    },
+    {
+      "category": "HDRI",
+      "name": "kloppenheim_02_puresky_4k",
+      "description": "HDRI素材「kloppenheim_02_puresky_4k」\n文件：\n  - kloppenheim_02_puresky_4k.exr: 74.4 MB\n  - kloppenheim_02_puresky_4k_1.tx: 23.9 MB\n来源: F:/hdr\n导入日期: 2026-09-21",
+      "thumbnail": "assets/HDRI/kloppenheim_02_puresky_4k.png",
+      "downloads": [
+        "assets/HDRI/kloppenheim_02_puresky_4k/kloppenheim_02_puresky_4k.exr"
+      ],
+      "files": [
+        "kloppenheim_02_puresky_4k.exr"
+      ],
+      "size": 78062264,
+      "date": "2026-09-21"
+    },
+    {
+      "category": "HDRI",
+      "name": "kloppenheim_06_puresky_4k",
+      "description": "HDRI素材「kloppenheim_06_puresky_4k」\n文件：\n  - kloppenheim_06_puresky_4k.exr: 70.5 MB\n来源: F:/hdr\n导入日期: 2026-09-21",
+      "thumbnail": "",
+      "downloads": [
+        "assets/HDRI/kloppenheim_06_puresky_4k/kloppenheim_06_puresky_4k.exr"
+      ],
+      "files": [
+        "kloppenheim_06_puresky_4k.exr"
+      ],
+      "size": 73949801,
+      "date": "2026-09-21"
+    },
+    {
+      "category": "HDRI",
+      "name": "lenong_2_4k",
+      "description": "HDRI素材「lenong_2_4k」\n文件：\n  - lenong_2_4k.exr: 20.0 MB\n来源: F:/hdr\n导入日期: 2026-09-21",
+      "thumbnail": "",
+      "downloads": [
+        "assets/HDRI/lenong_2_4k/lenong_2_4k.exr"
+      ],
+      "files": [
+        "lenong_2_4k.exr"
+      ],
+      "size": 20919476,
+      "date": "2026-09-21"
+    },
+    {
+      "category": "HDRI",
+      "name": "lonely_road_afternoon_puresky_4k",
+      "description": "HDRI素材「lonely_road_afternoon_puresky_4k」\n文件：\n  - lonely_road_afternoon_puresky_4k.exr: 68.3 MB\n来源: F:/hdr\n导入日期: 2026-09-21",
+      "thumbnail": "",
+      "downloads": [
+        "assets/HDRI/lonely_road_afternoon_puresky_4k/lonely_road_afternoon_puresky_4k.exr"
+      ],
+      "files": [
+        "lonely_road_afternoon_puresky_4k.exr"
+      ],
+      "size": 71619284,
+      "date": "2026-09-21"
+    },
+    {
+      "category": "HDRI",
+      "name": "mirrored_hall_4k",
+      "description": "HDRI素材「mirrored_hall_4k」\n文件：\n  - mirrored_hall_4k.exr: 84.3 MB\n来源: F:/hdr\n导入日期: 2026-09-21",
+      "thumbnail": "",
+      "downloads": [
+        "assets/HDRI/mirrored_hall_4k/mirrored_hall_4k.exr"
+      ],
+      "files": [
+        "mirrored_hall_4k.exr"
+      ],
+      "size": 88345703,
+      "date": "2026-09-21"
+    },
+    {
+      "category": "HDRI",
+      "name": "night",
+      "description": "HDRI素材「night」\n文件：\n  - night.exr: 48.0 MB\n来源: F:/hdr\n导入日期: 2026-09-21",
+      "thumbnail": "",
+      "downloads": [
+        "assets/HDRI/night/night.exr"
+      ],
+      "files": [
+        "night.exr"
+      ],
+      "size": 50364871,
+      "date": "2026-09-21"
+    },
+    {
+      "category": "HDRI",
+      "name": "outdoor_chapel_4k",
+      "description": "HDRI素材「outdoor_chapel_4k」\n文件：\n  - outdoor_chapel_4k.exr: 82.2 MB\n来源: F:/hdr\n导入日期: 2026-09-21",
+      "thumbnail": "",
+      "downloads": [
+        "assets/HDRI/outdoor_chapel_4k/outdoor_chapel_4k.exr"
+      ],
+      "files": [
+        "outdoor_chapel_4k.exr"
+      ],
+      "size": 86198453,
+      "date": "2026-09-21"
+    },
+    {
+      "category": "HDRI",
+      "name": "Panorama",
+      "description": "HDRI素材「Panorama」\n文件：\n  - Panorama.exr: 7.1 MB\n来源: F:/hdr\n导入日期: 2026-09-21",
+      "thumbnail": "assets/HDRI/Panorama.png",
+      "downloads": [
+        "assets/HDRI/Panorama/Panorama.exr"
+      ],
+      "files": [
+        "Panorama.exr"
+      ],
+      "size": 7427695,
+      "date": "2026-09-21"
+    },
+    {
+      "category": "HDRI",
+      "name": "pillars_4k",
+      "description": "HDRI素材「pillars_4k」\n文件：\n  - pillars_4k.exr: 25.9 MB\n来源: F:/hdr\n导入日期: 2026-09-21",
+      "thumbnail": "",
+      "downloads": [
+        "assets/HDRI/pillars_4k/pillars_4k.exr"
+      ],
+      "files": [
+        "pillars_4k.exr"
+      ],
+      "size": 27164093,
+      "date": "2026-09-21"
+    },
+    {
+      "category": "HDRI",
+      "name": "pretville_cinema_4k",
+      "description": "HDRI素材「pretville_cinema_4k」\n文件：\n  - pretville_cinema_4k.exr: 82.5 MB\n来源: F:/hdr\n导入日期: 2026-09-21",
+      "thumbnail": "",
+      "downloads": [
+        "assets/HDRI/pretville_cinema_4k/pretville_cinema_4k.exr"
+      ],
+      "files": [
+        "pretville_cinema_4k.exr"
+      ],
+      "size": 86556813,
+      "date": "2026-09-21"
+    },
+    {
+      "category": "HDRI",
+      "name": "qwantani_dusk_1_puresky_4k",
+      "description": "HDRI素材「qwantani_dusk_1_puresky_4k」\n文件：\n  - qwantani_dusk_1_puresky_4k.exr: 65.8 MB\n来源: F:/hdr\n导入日期: 2026-09-21",
+      "thumbnail": "assets/HDRI/qwantani_dusk_1_puresky_4k.png",
+      "downloads": [
+        "assets/HDRI/qwantani_dusk_1_puresky_4k/qwantani_dusk_1_puresky_4k.exr"
+      ],
+      "files": [
+        "qwantani_dusk_1_puresky_4k.exr"
+      ],
+      "size": 68964103,
+      "date": "2026-09-21"
+    },
+    {
+      "category": "HDRI",
+      "name": "qwantani_dusk_2_puresky_4k",
+      "description": "HDRI素材「qwantani_dusk_2_puresky_4k」\n文件：\n  - qwantani_dusk_2_puresky_4k.exr: 67.4 MB\n来源: F:/hdr\n导入日期: 2026-09-21",
+      "thumbnail": "",
+      "downloads": [
+        "assets/HDRI/qwantani_dusk_2_puresky_4k/qwantani_dusk_2_puresky_4k.exr"
+      ],
+      "files": [
+        "qwantani_dusk_2_puresky_4k.exr"
+      ],
+      "size": 70695906,
+      "date": "2026-09-21"
+    },
+    {
+      "category": "HDRI",
+      "name": "rosendal_park_sunset_puresky_4k",
+      "description": "HDRI素材「rosendal_park_sunset_puresky_4k」\n文件：\n  - rosendal_park_sunset_puresky_4k.exr: 71.5 MB\n来源: F:/hdr\n导入日期: 2026-09-21",
+      "thumbnail": "",
+      "downloads": [
+        "assets/HDRI/rosendal_park_sunset_puresky_4k/rosendal_park_sunset_puresky_4k.exr"
+      ],
+      "files": [
+        "rosendal_park_sunset_puresky_4k.exr"
+      ],
+      "size": 74998070,
+      "date": "2026-09-21"
+    },
+    {
+      "category": "HDRI",
+      "name": "school_hall_4k",
+      "description": "HDRI素材「school_hall_4k」\n文件：\n  - school_hall_4k.exr: 82.0 MB\n来源: F:/hdr\n导入日期: 2026-09-21",
+      "thumbnail": "",
+      "downloads": [
+        "assets/HDRI/school_hall_4k/school_hall_4k.exr"
+      ],
+      "files": [
+        "school_hall_4k.exr"
+      ],
+      "size": 86021032,
+      "date": "2026-09-21"
+    },
+    {
+      "category": "HDRI",
+      "name": "signal_hill_sunrise_4k",
+      "description": "HDRI素材「signal_hill_sunrise_4k」\n文件：\n  - signal_hill_sunrise_4k.exr: 18.4 MB\n来源: F:/hdr\n导入日期: 2026-09-21",
+      "thumbnail": "",
+      "downloads": [
+        "assets/HDRI/signal_hill_sunrise_4k/signal_hill_sunrise_4k.exr"
+      ],
+      "files": [
+        "signal_hill_sunrise_4k.exr"
+      ],
+      "size": 19297351,
+      "date": "2026-09-21"
+    },
+    {
+      "category": "HDRI",
+      "name": "studio_0.5_Utility_sRGB",
+      "description": "HDRI素材「studio_0.5_Utility_sRGB」\n文件：\n  - studio_0.5 Utility - Linear - sRGB .exr: 48.0 MB\n来源: F:/hdr\n导入日期: 2026-09-21",
+      "thumbnail": "",
+      "downloads": [
+        "assets/HDRI/studio_0.5_Utility_sRGB/studio_0.5 Utility - Linear - sRGB .exr"
+      ],
+      "files": [
+        "studio_0.5 Utility - Linear - sRGB .exr"
+      ],
+      "size": 50364971,
+      "date": "2026-09-21"
+    },
+    {
+      "category": "HDRI",
+      "name": "Studio_06",
+      "description": "HDRI素材「Studio_06」\n文件：\n  - Studio 06.exr: 0.0 MB\n来源: F:/hdr\n导入日期: 2026-09-21",
+      "thumbnail": "",
+      "downloads": [
+        "assets/HDRI/Studio_06/Studio 06.exr"
+      ],
+      "files": [
+        "Studio 06.exr"
+      ],
+      "size": 5057,
+      "date": "2026-09-21"
+    },
+    {
+      "category": "HDRI",
+      "name": "Studio_Black_Soft",
+      "description": "HDRI素材「Studio_Black_Soft」\n文件：\n  - Studio Black Soft.exr: 0.0 MB\n来源: F:/hdr\n导入日期: 2026-09-21",
+      "thumbnail": "",
+      "downloads": [
+        "assets/HDRI/Studio_Black_Soft/Studio Black Soft.exr"
+      ],
+      "files": [
+        "Studio Black Soft.exr"
+      ],
+      "size": 39935,
+      "date": "2026-09-21"
+    },
+    {
+      "category": "HDRI",
+      "name": "studio_small_09_4k",
+      "description": "HDRI素材「studio_small_09_4k」\n文件：\n  - studio_small_09_4k.exr: 17.7 MB\n来源: F:/hdr\n导入日期: 2026-09-21",
+      "thumbnail": "assets/HDRI/studio_small_09_4k.png",
+      "downloads": [
+        "assets/HDRI/studio_small_09_4k/studio_small_09_4k.exr"
+      ],
+      "files": [
+        "studio_small_09_4k.exr"
+      ],
+      "size": 18544389,
+      "date": "2026-09-21"
+    },
+    {
+      "category": "HDRI",
+      "name": "Studio_Tomoco",
+      "description": "HDRI素材「Studio_Tomoco」\n文件：\n  - Studio Tomoco.exr: 0.1 MB\n来源: F:/hdr\n导入日期: 2026-09-21",
+      "thumbnail": "",
+      "downloads": [
+        "assets/HDRI/Studio_Tomoco/Studio Tomoco.exr"
+      ],
+      "files": [
+        "Studio Tomoco.exr"
+      ],
+      "size": 54047,
+      "date": "2026-09-21"
+    },
+    {
+      "category": "HDRI",
+      "name": "syferfontein_18d_clear_puresky_4k",
+      "description": "HDRI素材「syferfontein_18d_clear_puresky_4k」\n文件：\n  - syferfontein_18d_clear_puresky_4k.exr: 69.8 MB\n来源: F:/hdr\n导入日期: 2026-09-21",
+      "thumbnail": "",
+      "downloads": [
+        "assets/HDRI/syferfontein_18d_clear_puresky_4k/syferfontein_18d_clear_puresky_4k.exr"
+      ],
+      "files": [
+        "syferfontein_18d_clear_puresky_4k.exr"
+      ],
+      "size": 73219038,
+      "date": "2026-09-21"
+    },
+    {
+      "category": "HDRI",
+      "name": "syferfontein_1d_clear_puresky_4k",
+      "description": "HDRI素材「syferfontein_1d_clear_puresky_4k」\n文件：\n  - syferfontein_1d_clear_puresky_4k.exr: 53.0 MB\n来源: F:/hdr\n导入日期: 2026-09-21",
+      "thumbnail": "",
+      "downloads": [
+        "assets/HDRI/syferfontein_1d_clear_puresky_4k/syferfontein_1d_clear_puresky_4k.exr"
+      ],
+      "files": [
+        "syferfontein_1d_clear_puresky_4k.exr"
+      ],
+      "size": 55586135,
+      "date": "2026-09-21"
+    },
+    {
+      "category": "HDRI",
+      "name": "the_sky_is_on_fire_4k",
+      "description": "HDRI素材「the_sky_is_on_fire_4k」\n文件：\n  - the_sky_is_on_fire_4k.exr: 17.3 MB\n  - the_sky_is_on_fire_4k_Utility - Linear - Rec.709_ACEScg.exr.tx: 35.1 MB\n来源: F:/hdr\n导入日期: 2026-09-21",
+      "thumbnail": "",
+      "downloads": [
+        "assets/HDRI/the_sky_is_on_fire_4k/the_sky_is_on_fire_4k.exr"
+      ],
+      "files": [
+        "the_sky_is_on_fire_4k.exr"
+      ],
+      "size": 18139397,
+      "date": "2026-09-21"
+    },
+    {
+      "category": "HDRI",
+      "name": "venice_sunset_4k",
+      "description": "HDRI素材「venice_sunset_4k」\n文件：\n  - venice_sunset_4k.exr: 17.7 MB\n来源: F:/hdr\n导入日期: 2026-09-21",
+      "thumbnail": "",
+      "downloads": [
+        "assets/HDRI/venice_sunset_4k/venice_sunset_4k.exr"
+      ],
+      "files": [
+        "venice_sunset_4k.exr"
+      ],
+      "size": 18521671,
+      "date": "2026-09-21"
+    },
+    {
+      "category": "HDRI",
+      "name": "wasteland_clouds_puresky_4k",
+      "description": "HDRI素材「wasteland_clouds_puresky_4k」\n文件：\n  - wasteland_clouds_puresky_4k.exr: 70.0 MB\n来源: F:/hdr\n导入日期: 2026-09-21",
+      "thumbnail": "",
+      "downloads": [
+        "assets/HDRI/wasteland_clouds_puresky_4k/wasteland_clouds_puresky_4k.exr"
+      ],
+      "files": [
+        "wasteland_clouds_puresky_4k.exr"
+      ],
+      "size": 73359437,
+      "date": "2026-09-21"
+    },
+    {
+      "category": "材质球",
+      "name": "示例_金属材质",
+      "description": "这是一个示例金属材质，用于演示素材库功能",
+      "thumbnail": "assets/材质球/示例_金属材质.png",
+      "downloads": [
+        "assets/材质球/示例_金属材质/metal_preset.ma"
+      ],
+      "files": [
+        "metal_preset.ma"
+      ],
+      "size": 19,
+      "date": "2026-09-21"
+    }
+  ]
+}
