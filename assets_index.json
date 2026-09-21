@@ -1,11 +1,11 @@
 {
-  "updated": "2026-09-21T22:48:29.333833",
+  "updated": "2026-09-21T23:05:44.817840",
   "assets": [
     {
       "category": "HDRI",
       "name": "15_beerse_living",
       "description": "HDRI素材「15_beerse_living」\n文件：\n  - 15_beerse_living.hdr: 22.0 MB\n来源: F:/hdr\n导入日期: 2026-09-21",
-      "thumbnail": "",
+      "thumbnail": "assets/HDRI/15_beerse_living.png",
       "downloads": [
         "assets/HDRI/15_beerse_living/15_beerse_living.hdr"
       ],
@@ -19,7 +19,7 @@
       "category": "HDRI",
       "name": "aces_p",
       "description": "HDRI素材「aces_p」\n文件：\n  - aces/p.exr: 39.0 MB\n来源: F:/hdr\n导入日期: 2026-09-21",
-      "thumbnail": "",
+      "thumbnail": "assets/HDRI/aces_p.png",
       "downloads": [
         "assets/HDRI/aces_p/p.exr"
       ],
@@ -47,7 +47,7 @@
       "category": "HDRI",
       "name": "christmas_photo_studio_01_4k",
       "description": "HDRI素材「christmas_photo_studio_01_4k」\n文件：\n  - christmas_photo_studio_01_4k.exr: 21.8 MB\n来源: F:/hdr\n导入日期: 2026-09-21",
-      "thumbnail": "",
+      "thumbnail": "assets/HDRI/christmas_photo_studio_01_4k.png",
       "downloads": [
         "assets/HDRI/christmas_photo_studio_01_4k/christmas_photo_studio_01_4k.exr"
       ],
@@ -61,7 +61,7 @@
       "category": "HDRI",
       "name": "circus_arena_4k",
       "description": "HDRI素材「circus_arena_4k」\n文件：\n  - circus_arena_4k.exr: 20.7 MB\n来源: F:/hdr\n导入日期: 2026-09-21",
-      "thumbnail": "",
+      "thumbnail": "assets/HDRI/circus_arena_4k.png",
       "downloads": [
         "assets/HDRI/circus_arena_4k/circus_arena_4k.exr"
       ],
@@ -75,7 +75,7 @@
       "category": "HDRI",
       "name": "country_club_4k",
       "description": "HDRI素材「country_club_4k」\n文件：\n  - country_club_4k.exr: 22.5 MB\n来源: F:/hdr\n导入日期: 2026-09-21",
-      "thumbnail": "",
+      "thumbnail": "assets/HDRI/country_club_4k.png",
       "downloads": [
         "assets/HDRI/country_club_4k/country_club_4k.exr"
       ],
@@ -103,7 +103,7 @@
       "category": "HDRI",
       "name": "HighwayOverpass",
       "description": "HDRI素材「HighwayOverpass」\n文件：\n  - HighwayOverpass.hdr: 18.6 MB\n  - HighwayOverpass.tx: 55.0 MB\n来源: F:/hdr\n导入日期: 2026-09-21",
-      "thumbnail": "",
+      "thumbnail": "assets/HDRI/HighwayOverpass.png",
       "downloads": [
         "assets/HDRI/HighwayOverpass/HighwayOverpass.hdr"
       ],
@@ -117,7 +117,7 @@
       "category": "HDRI",
       "name": "lenong_2_4k",
       "description": "HDRI素材「lenong_2_4k」\n文件：\n  - lenong_2_4k.exr: 20.0 MB\n来源: F:/hdr\n导入日期: 2026-09-21",
-      "thumbnail": "",
+      "thumbnail": "assets/HDRI/lenong_2_4k.png",
       "downloads": [
         "assets/HDRI/lenong_2_4k/lenong_2_4k.exr"
       ],
@@ -145,7 +145,7 @@
       "category": "HDRI",
       "name": "pillars_4k",
       "description": "HDRI素材「pillars_4k」\n文件：\n  - pillars_4k.exr: 25.9 MB\n来源: F:/hdr\n导入日期: 2026-09-21",
-      "thumbnail": "",
+      "thumbnail": "assets/HDRI/pillars_4k.png",
       "downloads": [
         "assets/HDRI/pillars_4k/pillars_4k.exr"
       ],
@@ -159,7 +159,7 @@
       "category": "HDRI",
       "name": "signal_hill_sunrise_4k",
       "description": "HDRI素材「signal_hill_sunrise_4k」\n文件：\n  - signal_hill_sunrise_4k.exr: 18.4 MB\n来源: F:/hdr\n导入日期: 2026-09-21",
-      "thumbnail": "",
+      "thumbnail": "assets/HDRI/signal_hill_sunrise_4k.png",
       "downloads": [
         "assets/HDRI/signal_hill_sunrise_4k/signal_hill_sunrise_4k.exr"
       ],
@@ -173,7 +173,7 @@
       "category": "HDRI",
       "name": "Studio_06",
       "description": "HDRI素材「Studio_06」\n文件：\n  - Studio 06.exr: 0.0 MB\n来源: F:/hdr\n导入日期: 2026-09-21",
-      "thumbnail": "",
+      "thumbnail": "assets/HDRI/Studio_06.png",
       "downloads": [
         "assets/HDRI/Studio_06/Studio 06.exr"
       ],
@@ -187,7 +187,7 @@
       "category": "HDRI",
       "name": "Studio_Black_Soft",
       "description": "HDRI素材「Studio_Black_Soft」\n文件：\n  - Studio Black Soft.exr: 0.0 MB\n来源: F:/hdr\n导入日期: 2026-09-21",
-      "thumbnail": "",
+      "thumbnail": "assets/HDRI/Studio_Black_Soft.png",
       "downloads": [
         "assets/HDRI/Studio_Black_Soft/Studio Black Soft.exr"
       ],
@@ -215,7 +215,7 @@
       "category": "HDRI",
       "name": "Studio_Tomoco",
       "description": "HDRI素材「Studio_Tomoco」\n文件：\n  - Studio Tomoco.exr: 0.1 MB\n来源: F:/hdr\n导入日期: 2026-09-21",
-      "thumbnail": "",
+      "thumbnail": "assets/HDRI/Studio_Tomoco.png",
       "downloads": [
         "assets/HDRI/Studio_Tomoco/Studio Tomoco.exr"
       ],
@@ -229,7 +229,7 @@
       "category": "HDRI",
       "name": "the_sky_is_on_fire_4k",
       "description": "HDRI素材「the_sky_is_on_fire_4k」\n文件：\n  - the_sky_is_on_fire_4k.exr: 17.3 MB\n  - the_sky_is_on_fire_4k_Utility - Linear - Rec.709_ACEScg.exr.tx: 35.1 MB\n来源: F:/hdr\n导入日期: 2026-09-21",
-      "thumbnail": "",
+      "thumbnail": "assets/HDRI/the_sky_is_on_fire_4k.png",
       "downloads": [
         "assets/HDRI/the_sky_is_on_fire_4k/the_sky_is_on_fire_4k.exr"
       ],
@@ -243,7 +243,7 @@
       "category": "HDRI",
       "name": "venice_sunset_4k",
       "description": "HDRI素材「venice_sunset_4k」\n文件：\n  - venice_sunset_4k.exr: 17.7 MB\n来源: F:/hdr\n导入日期: 2026-09-21",
-      "thumbnail": "",
+      "thumbnail": "assets/HDRI/venice_sunset_4k.png",
       "downloads": [
         "assets/HDRI/venice_sunset_4k/venice_sunset_4k.exr"
       ],
