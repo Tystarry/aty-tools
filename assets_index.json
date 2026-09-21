@@ -1,5 +1,5 @@
 {
-  "updated": "2026-09-22T00:12:35.306363",
+  "updated": "2026-09-22T01:05:45.128026",
   "assets": [
     {
       "category": "HDRI",
@@ -18,7 +18,7 @@
     {
       "category": "HDRI",
       "name": "aces_p",
-      "description": "HDRI素材「aces_p」\n文件：\n  - aces/p.exr: 39.0 MB\n来源: F:/hdr\n导入日期: 2026-09-21",
+      "description": "HDRI素材「aces_p」\n文件：\n  - aces/p.exr: 39.0 MB\n来源: F:/hdr\n导入日期: 2026-09-21\n\n备注：DWAA:100 压缩版（原 38 MB，GitHub 上传上限约 35MB）",
       "thumbnail": "assets/HDRI/aces_p/缩略图.png",
       "downloads": [
         "assets/HDRI/aces_p/p.exr"
@@ -26,7 +26,7 @@
       "files": [
         "p.exr"
       ],
-      "size": 40882195,
+      "size": 7924152,
       "date": "2026-09-22"
     },
     {
